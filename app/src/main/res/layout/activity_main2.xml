@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".pages.Events"
+    tools:layout_editor_absoluteY="25dp">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbar"
+        tools:ignore="MissingConstraints" />
+
+
+    <Button
+        android:id="@+id/Guides"
+        android:layout_width="0dp"
+        android:layout_height="86dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="40dp"
+        android:text="@string/guides"
+        app:layout_constraintBottom_toTopOf="@+id/PersonalArea"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Tours"
+        app:layout_constraintTop_toBottomOf="@+id/News" />
+
+    <Button
+        android:id="@+id/Tours"
+        android:layout_width="0dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginBottom="40dp"
+        android:text="@string/tours"
+        app:layout_constraintBottom_toTopOf="@+id/FindFriends"
+        app:layout_constraintEnd_toStartOf="@+id/Guides"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Events" />
+
+    <Button
+        android:id="@+id/PersonalArea"
+        android:layout_width="0dp"
+        android:layout_height="86dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="137dp"
+        android:text="@string/personal_area"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/FindFriends"
+        app:layout_constraintTop_toBottomOf="@+id/Guides" />
+
+    <Button
+        android:id="@+id/FindFriends"
+        android:layout_width="0dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginBottom="137dp"
+        android:text="@string/search_friends"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/PersonalArea"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Tours" />
+
+    <Button
+        android:id="@+id/Events"
+        android:layout_width="0dp"
+        android:layout_height="86dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="115dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginBottom="38dp"
+        android:text="@string/events"
+        app:layout_constraintBottom_toTopOf="@+id/Tours"
+        app:layout_constraintEnd_toStartOf="@+id/News"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/News"
+        android:layout_width="0dp"
+        android:layout_height="86dp"
+        android:layout_marginTop="115dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="38dp"
+        android:text="@string/news"
+        app:layout_constraintBottom_toTopOf="@+id/Guides"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Events"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
