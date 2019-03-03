@@ -4,7 +4,6 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface API {
@@ -20,7 +19,7 @@ public interface API {
 
     @GET("events.json")
     Call<List<events>> eventList(@Query("limit") int limit, @Query("skip") int skip,
-                                         @Query("category") int idCategory, @Query("cities") String city);
+                                 @Query("category") int idCategory, @Query("cities") String city);
 
 
 }

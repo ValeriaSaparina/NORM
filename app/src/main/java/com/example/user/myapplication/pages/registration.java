@@ -17,10 +17,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-public class zareg extends AppCompatActivity implements View.OnClickListener {
+public class registration extends AppCompatActivity implements View.OnClickListener {
 
 
     Button btnZareg2;
@@ -41,7 +39,7 @@ public class zareg extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_zareg);
+        setContentView(R.layout.activity_registration);
 
         btnZareg2 = findViewById(R.id.zareg2);
         btnZareg2.setOnClickListener(this);
@@ -86,7 +84,7 @@ public class zareg extends AppCompatActivity implements View.OnClickListener {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("jj", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(zareg.this, "Authentication failed.",
+                            Toast.makeText(registration.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

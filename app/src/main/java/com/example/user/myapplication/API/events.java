@@ -1,13 +1,13 @@
 package com.example.user.myapplication.API;
 
 public class events {
-    private String name;
-    private String city;
-    private String location;
-    private String category;
-    private String start_at;
-    private String url;
-    private String image;
+    protected String name;
+    protected String city;
+    protected String location;
+    protected String category;
+    protected String start_at;
+    protected String url;
+    protected String image;
 
     public String getName() {
         return name;

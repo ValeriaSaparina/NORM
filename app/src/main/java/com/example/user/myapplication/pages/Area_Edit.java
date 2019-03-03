@@ -73,9 +73,7 @@ public class Area_Edit extends AppCompatActivity  {
                 //str = dataSnapshot.child(user.getUid()).child("information").getValue(String.class);
 
                 showData(dataSnapshot);
-                Log.d("HELP", "Ура");
                 updateUI();
-                Log.d("HELP", "Ура");
             }
 
 
@@ -96,10 +94,10 @@ public class Area_Edit extends AppCompatActivity  {
             UserInfo.setEmail(ds.child(Userid).getValue(UserInformation.class).getEmail());
             UserInfo.setInformation(ds.child(Userid).getValue(UserInformation.class).getInformation());
 
-            Log.d("EEE", UserInfo.getEmail());
-            Log.d("EEE", UserInfo.getInformation());
-            Log.d("EEE", UserInfo.getSurname());
-            Log.d("EEE", UserInfo.getName());
+            Log.d("DATABASE", UserInfo.getEmail());
+            Log.d("DATABASE", UserInfo.getInformation());
+            Log.d("DATABASE", UserInfo.getSurname());
+            Log.d("DATABASE", UserInfo.getName());
 
             ArrayList<String> array = new ArrayList<>();
             array.add(UserInfo.getName());
@@ -116,8 +114,6 @@ public class Area_Edit extends AppCompatActivity  {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1);
 
         ListUserTasks.setAdapter(adapter);
-
-        Log.d("HELP", "Ура!!");
     }
 
 //    @Override

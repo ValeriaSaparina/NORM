@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.zareg">
+    tools:context=".pages.registration">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        style="@style/Toolbar"/>
+        style="@style/Toolbar"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/TextZareg"

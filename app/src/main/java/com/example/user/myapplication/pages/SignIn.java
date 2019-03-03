@@ -17,7 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class vhod extends AppCompatActivity implements View.OnClickListener {
+public class SignIn extends AppCompatActivity implements View.OnClickListener {
 
     Button btnVhod2;
     EditText etEmail;
@@ -28,7 +28,7 @@ public class vhod extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vhod);
+        setContentView(R.layout.activity_sign_in);
 
         btnVhod2 = findViewById(R.id.vhod2);
         btnVhod2.setOnClickListener(this);
@@ -47,12 +47,12 @@ public class vhod extends AppCompatActivity implements View.OnClickListener {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("kk", "signInWithEmail:success");
+                            Log.d("authentication", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             CLICK();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("kk", "signInWithEmail:failure", task.getException());
+                            Log.w("authentication", "signInWithEmail:failure", task.getException());
                             ERROR();
                         }
                     }
@@ -72,6 +72,6 @@ public class vhod extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void ERROR() {
-        Toast.makeText(vhod.this, "Проверьте правильность введенных данных", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SignIn.this, "Проверьте правильность введенных данных", Toast.LENGTH_SHORT).show();
     }
 }

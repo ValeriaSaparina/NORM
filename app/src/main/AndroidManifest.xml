@@ -20,9 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".pages.vhod"
+        <activity android:name=".pages.SignIn"
             android:screenOrientation="portrait"/>
-        <activity android:name=".pages.zareg"
+        <activity android:name=".pages.registration"
             android:screenOrientation="portrait"/>
         <activity android:name=".pages.Main"
             android:screenOrientation="portrait"/>
