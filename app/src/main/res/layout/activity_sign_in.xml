@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.vhod"
+    tools:context=".pages.SignIn"
     tools:layout_editor_absoluteY="25dp">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        style="@style/Toolbar"/>
+        style="@style/Toolbar"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/TextZareg"
