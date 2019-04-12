@@ -39,6 +39,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         btnPersonalArea = findViewById(R.id.PersonalArea);
         btnPersonalArea.setOnClickListener(this);
+
     }
 
     @Override
@@ -76,4 +77,4 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 break;
         }
     }
-}
+} //TODO:Переход назад

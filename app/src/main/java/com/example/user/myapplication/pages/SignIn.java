@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.user.myapplication.R;
+import com.example.user.myapplication.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -49,6 +50,13 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("authentication", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            //проверка бфзы данных
+                            Users users = new Users();
+                            users.getName(user.getUid());
+                            users.getLastname(user.getUid());
+                            users.getAbout(user.getUid());
+
                             CLICK();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -69,6 +77,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
     private void CLICK() {
         Intent intent = new Intent(this, Main.class);
         startActivity(intent);
+
     }
 
     private void ERROR() {

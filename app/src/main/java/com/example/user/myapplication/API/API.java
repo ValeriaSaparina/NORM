@@ -8,8 +8,11 @@ import retrofit2.http.Query;
 
 public interface API {
 
-    @GET("events.json?")
-    Call<List<events>> eventList(@Query("limit") int limit);
+    @GET("events.json?limit=")
+    Call<events> eventList(@Query("limit") int limit);
+
+//    @GET("events.json?")
+//    Call<events> eventList(@Query("limit") int limit);
 
     @GET("events.json?")
     Call<List<events>> eventList(@Query("limit") int limit, @Query("category") int idCategory);

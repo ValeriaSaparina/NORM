@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnVhodMain = findViewById(R.id.vhod1);
         btnVhodMain.setOnClickListener(this);
 
-        //привет :)
 
         btnZaregMain = findViewById(R.id.zareg1);
         btnZaregMain.setOnClickListener(this);
