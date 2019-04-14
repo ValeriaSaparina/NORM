@@ -6,10 +6,12 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.example.user.myapplication.API.API;
-import com.example.user.myapplication.API.events;
+import com.example.user.myapplication.API.EventsResponse;
 import com.example.user.myapplication.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Events extends AppCompatActivity {
 
    // TextView textView;
-    static final String BASE_URL = "https://api.timepad.ru/v1/";
+    static final String BASE_URL = "https://api.timepad.ru/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class Events extends AppCompatActivity {
     }
 
     void getReport() {
-        Log.d("API", "Start");
+        Log.d("API", "start");
         Gson gson = new GsonBuilder()
 
                     .setLenient()
@@ -42,15 +44,19 @@ public class Events extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         API api = retrofit.create(API.class);
-        Call<events> call = api.eventList(3);
-        call.enqueue(new Callback<events>() {
+        Call<EventsResponse> call = api.eventList(1);
+        call.enqueue(new Callback<EventsResponse>() {
             @Override
-            public void onResponse(Call<events> call, Response<events> response) {
+            public void onResponse(Call<EventsResponse> call, Response<EventsResponse> response) {
                 try {
-                    String textWord = response.body().getCity();
-                    TextView textView = findViewById(R.id.RESTAPI);
-                    textView.setText(textWord);
-                    Log.d("API", textWord);
+                    EventsResponse eventsResponse = response.body();
+                    Log.d("API", "raw response: " + response.raw().toString());
+                    if (eventsResponse == null) Log.d("API", "response is null");
+                    else {
+                        Log.d("API", "event list is " + eventsResponse.getTotal() + " length");
+                        Log.d("API", "values: " + eventsResponse.getValue());
+
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -59,7 +65,7 @@ public class Events extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<events> call, Throwable t) {
+            public void onFailure(Call<EventsResponse> call, Throwable t) {
                 Log.d("API", "failed");
             }
         });
