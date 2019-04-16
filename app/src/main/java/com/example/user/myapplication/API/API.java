@@ -7,8 +7,12 @@ import retrofit2.http.Query;
 
 public interface API {
 
-    @GET("v1/events.json")
+    @GET("v1/events.json?cities=Казань")
+    Call<EventsResponse> eventList(@Query("limit") int limit, @Query("skip") int skip);
+
+    @GET("v1/events.json?cities=Казань")
     Call<EventsResponse> eventList(@Query("limit") int limit);
+
 
 //    @GET("events.json?")
 //    Call<events> eventList(@Query("limit") int limit);

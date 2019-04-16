@@ -7,6 +7,55 @@
     tools:context=".pages.Main"
     tools:layout_editor_absoluteY="81dp">
 
+    <ImageView
+        android:id="@+id/img_event2"
+        android:layout_width="286dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/event2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventURL1"
+        app:layout_constraintVertical_bias="0.0"
+        tools:srcCompat="@tools:sample/avatars[11]" />
+
+    <EditText
+        android:id="@+id/event2"
+        android:layout_width="242dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintBottom_toTopOf="@+id/eventURL2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.137"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/eventURL2"
+        android:layout_width="333dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="84dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:autoLink="all"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.37"
+        app:layout_constraintStart_toStartOf="parent"
+        android:focusable="true" />
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/Toolbar"
@@ -17,8 +66,8 @@
         android:id="@+id/TextEvents"
         android:layout_width="411dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:background="@android:color/transparent"
         android:cursorVisible="false"
         android:ems="10"
@@ -28,185 +77,109 @@
         android:longClickable="false"
         android:text="Мероприятия"
         android:textSize="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.001"
-        tools:ignore="HardcodedText,MissingConstraints,SpUsage"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <EditText
-        android:id="@+id/RESTAPI2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="272dp"
-        android:ems="10"
-        android:focusable="false"
-        android:inputType="textPersonName"
-        android:text="Мероприятие2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView5"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.97"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/editText6"
-        android:layout_width="211dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:focusable="false"
-        android:text="БЛААААААААААААААААААААААААААААААааААААААААААААААААААААААААААААААААААААААААААААААААааа"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RESTAPI2"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:ignore="HardcodedText,MissingConstraints,SpUsage" />
 
     <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="159dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="28dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/RESTAPI2"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        tools:ignore="MissingConstraints"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-    <EditText
-        android:id="@+id/editText11"
-        android:layout_width="156dp"
-        android:layout_height="37dp"
-        android:ems="10"
-        android:focusable="false"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toEndOf="@+id/editText6"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="159dp"
-        android:layout_height="41dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editText6"
-        app:layout_constraintTop_toBottomOf="@+id/editText11"
-        tools:ignore="MissingConstraints" />
-
-
-    <EditText
-        android:id="@+id/RESTAPI"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
-        android:ems="10"
-        android:focusable="false"
-        android:inputType="textPersonName"
-        android:text="Мероприятие1"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="211dp"
-        android:layout_height="146dp"
-        android:layout_marginBottom="52dp"
-        android:ems="10"
-        android:focusable="false"
-        android:text="БЛАААААААААААААААААААААААААААААААААААААААААААААААААААААА"
-        app:layout_constraintBottom_toTopOf="@+id/RESTAPI2"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="159dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="116dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/RESTAPI"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-    <EditText
-        android:id="@+id/editText5"
-        android:layout_width="156dp"
-        android:layout_height="37dp"
-        android:ems="10"
-        android:focusable="false"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
-        app:layout_constraintStart_toEndOf="@+id/editText4"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:ignore="MissingConstraints" />
-
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="159dp"
-        android:layout_height="41dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
-        app:layout_constraintStart_toEndOf="@+id/editText4"
-        app:layout_constraintTop_toBottomOf="@+id/editText5"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
+        android:id="@+id/img_event1"
+        android:layout_width="286dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:text="Назад"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button9"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="19dp"
+        app:layout_constraintBottom_toTopOf="@+id/event1"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText6"
-        app:layout_constraintVertical_bias="0.71"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/TextEvents"
+        tools:srcCompat="@tools:sample/avatars[11]" />
+
+    <EditText
+        android:id="@+id/event1"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintBottom_toTopOf="@+id/eventURL1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.148"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/eventURL1"
+        android:layout_width="333dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="356dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.37"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button9"
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="НАЗАД"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_next"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventURL2" />
+
+    <Button
+        android:id="@+id/btn_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginBottom="16dp"
-        android:text="Вперед"
+        android:layout_marginEnd="92dp"
+        android:layout_marginBottom="8dp"
+        android:text="вперед"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button8"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
-        app:layout_constraintVertical_bias="0.205"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/eventURL2"
+        app:layout_constraintVertical_bias="0.55" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
+    <Button
+        android:id="@+id/add_event1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="добавить"
+        app:layout_constraintBottom_toTopOf="@+id/eventURL1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/event1"
+        app:layout_constraintTop_toBottomOf="@+id/img_event1" />
+
+    <Button
+        android:id="@+id/add_event2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="добавить"
+        app:layout_constraintBottom_toTopOf="@+id/eventURL2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/event2"
+        app:layout_constraintTop_toBottomOf="@+id/img_event2" />
 
 
 </android.support.constraint.ConstraintLayout>
