@@ -3,9 +3,9 @@ package com.example.user.myapplication.pages;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.example.user.myapplication.API.API;
+import com.example.user.myapplication.API.EventResponse;
 import com.example.user.myapplication.API.EventsResponse;
 import com.example.user.myapplication.R;
 import com.google.gson.Gson;
@@ -21,7 +21,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Events extends AppCompatActivity {
 
-   // TextView textView;
     static final String BASE_URL = "https://api.timepad.ru/";
 
     @Override
@@ -44,7 +43,7 @@ public class Events extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         API api = retrofit.create(API.class);
-        Call<EventsResponse> call = api.eventList(1);
+        Call<EventsResponse> call = api.eventList(3);
         call.enqueue(new Callback<EventsResponse>() {
             @Override
             public void onResponse(Call<EventsResponse> call, Response<EventsResponse> response) {
@@ -53,8 +52,9 @@ public class Events extends AppCompatActivity {
                     Log.d("API", "raw response: " + response.raw().toString());
                     if (eventsResponse == null) Log.d("API", "response is null");
                     else {
+                        List<EventResponse> myList = eventsResponse.getValues();
+                        for(EventResponse er: myList) Log.d("API", "id = " + er.getId() + " name = " + er.getName());
                         Log.d("API", "event list is " + eventsResponse.getTotal() + " length");
-                        Log.d("API", "values: " + eventsResponse.getValue());
 
                     }
                 } catch (Exception e) {

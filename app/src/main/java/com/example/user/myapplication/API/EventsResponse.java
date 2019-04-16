@@ -4,7 +4,7 @@ import java.util.List;
 
 public class EventsResponse {
     int total;
-    List<EventResponse> value;
+    List<EventResponse> values;
 
     public int getTotal() {
         return total;
@@ -14,7 +14,11 @@ public class EventsResponse {
         this.total = total;
     }
 
-    public List<EventResponse> getValue() {
-        return value;
+    public List<EventResponse> getValues() {
+        return values;
+    }
+
+    public void setValues(List<EventResponse> values) {
+        this.values = values;
     }
 }
