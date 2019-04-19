@@ -16,79 +16,42 @@
     <Button
         android:id="@+id/Guides"
         style="@style/Widget.AppCompat.Button"
-        android:layout_width="0dp"
+        android:layout_width="150dp"
         android:layout_height="86dp"
-        android:layout_marginEnd="31dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="232dp"
         android:text="@string/guides"
-        app:layout_constraintBottom_toTopOf="@+id/PersonalArea"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Tours"
-        app:layout_constraintTop_toBottomOf="@+id/News" />
-
-    <Button
-        android:id="@+id/Tours"
-        android:layout_width="0dp"
-        android:layout_height="86dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginEnd="37dp"
-        android:layout_marginBottom="40dp"
-        android:text="@string/tours"
-        app:layout_constraintBottom_toTopOf="@+id/FindFriends"
-        app:layout_constraintEnd_toStartOf="@+id/Guides"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Events" />
+        app:layout_constraintStart_toEndOf="@+id/Events"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/PersonalArea"
-        android:layout_width="0dp"
+        android:layout_width="150dp"
         android:layout_height="86dp"
-        android:layout_marginEnd="31dp"
-        android:layout_marginBottom="137dp"
+        android:layout_marginTop="49dp"
         android:text="@string/personal_area"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/FindFriends"
         app:layout_constraintTop_toBottomOf="@+id/Guides" />
 
     <Button
         android:id="@+id/FindFriends"
-        android:layout_width="0dp"
+        android:layout_width="150dp"
         android:layout_height="86dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginEnd="37dp"
-        android:layout_marginBottom="137dp"
+        android:layout_marginTop="48dp"
         android:text="@string/search_friends"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/PersonalArea"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Tours" />
+        app:layout_constraintTop_toBottomOf="@+id/Events" />
 
     <Button
         android:id="@+id/Events"
-        android:layout_width="0dp"
+        android:layout_width="150dp"
         android:layout_height="86dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="115dp"
-        android:layout_marginEnd="37dp"
-        android:layout_marginBottom="38dp"
+        android:layout_marginTop="232dp"
         android:text="@string/events"
-        app:layout_constraintBottom_toTopOf="@+id/Tours"
-        app:layout_constraintEnd_toStartOf="@+id/News"
+        app:layout_constraintEnd_toStartOf="@+id/Guides"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/News"
-        android:layout_width="0dp"
-        android:layout_height="86dp"
-        android:layout_marginTop="115dp"
-        android:layout_marginEnd="31dp"
-        android:layout_marginBottom="38dp"
-        android:text="@string/news"
-        app:layout_constraintBottom_toTopOf="@+id/Guides"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Events"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

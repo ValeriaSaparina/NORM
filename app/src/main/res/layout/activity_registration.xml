@@ -14,7 +14,8 @@
         android:id="@+id/TextZareg"
         android:layout_width="386dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="128dp"
         android:background="@android:color/transparent"
         android:cursorVisible="false"
         android:ems="10"
@@ -97,11 +98,10 @@
         android:id="@+id/zareg2"
         android:layout_width="179dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="104dp"
         android:text="Зарегистрироваться"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 

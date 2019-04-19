@@ -16,7 +16,7 @@
         android:id="@+id/TextZareg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="152dp"
         android:background="@android:color/transparent"
         android:cursorVisible="false"
         android:ems="10"
@@ -27,6 +27,7 @@
         android:text="Вход"
         android:textSize="32dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText,MissingConstraints,SpUsage" />

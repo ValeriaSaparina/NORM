@@ -25,11 +25,11 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         btnEvents = findViewById(R.id.Events);
         btnEvents.setOnClickListener(this);
 
-        btnNews = findViewById(R.id.News);
-        btnNews.setOnClickListener(this);
-
-        btnTours = findViewById(R.id.Tours);
-        btnTours.setOnClickListener(this);
+//        btnNews = findViewById(R.id.News);
+//        btnNews.setOnClickListener(this);
+//
+//        btnTours = findViewById(R.id.Tours);
+//        btnTours.setOnClickListener(this);
 
         btnGuides = findViewById(R.id.Guides);
         btnGuides.setOnClickListener(this);
@@ -51,15 +51,15 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
 
-            case R.id.News:
-                intent = new Intent(this, News.class);
-                startActivity(intent);
-                break;
-
-            case R.id.Tours:
-                intent = new Intent(this, Tours.class);
-                startActivity(intent);
-                break;
+//            case R.id.News:
+//                intent = new Intent(this, News.class);
+//                startActivity(intent);
+//                break;
+//
+//            case R.id.Tours:
+//                intent = new Intent(this, Tours.class);
+//                startActivity(intent);
+//                break;
 
             case R.id.Guides:
                 intent = new Intent(this, Guides.class);

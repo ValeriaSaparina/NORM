@@ -3,8 +3,16 @@ package com.example.user.myapplication.API;
 public class EventResponse {
     private int id;
     private String name;
-    private String description_short;
     private String url;
+    private ImageResponse poster_image;
+
+    public ImageResponse getPoster_image() {
+        return poster_image;
+    }
+
+    public void setPoster_image(ImageResponse poster_image) {
+        this.poster_image = poster_image;
+    }
 
     public String getUrl() {
         return url;

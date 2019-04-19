@@ -33,6 +33,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
+        android:focusable="false"
         app:layout_constraintBottom_toTopOf="@+id/eventURL2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.137"
@@ -48,13 +49,11 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        android:autoLink="all"
-        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.37"
         app:layout_constraintStart_toStartOf="parent"
-        android:focusable="true" />
+        android:focusable="false" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
