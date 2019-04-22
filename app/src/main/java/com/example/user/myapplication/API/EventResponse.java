@@ -1,10 +1,22 @@
 package com.example.user.myapplication.API;
 
+import java.util.List;
+
 public class EventResponse {
     private int id;
     private String name;
     private String url;
     private ImageResponse poster_image;
+
+    public List<CategoryResponse> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<CategoryResponse> categories) {
+        this.categories = categories;
+    }
+
+    private List<CategoryResponse> categories;
 
     public ImageResponse getPoster_image() {
         return poster_image;

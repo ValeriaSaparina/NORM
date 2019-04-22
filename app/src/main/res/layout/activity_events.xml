@@ -9,18 +9,17 @@
 
     <ImageView
         android:id="@+id/img_event2"
-        android:layout_width="286dp"
-        android:layout_height="130dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="19dp"
         app:layout_constraintBottom_toTopOf="@+id/event2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventURL1"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/eventInfo1"
         tools:srcCompat="@tools:sample/avatars[11]" />
 
     <EditText
@@ -34,13 +33,13 @@
         android:inputType="textPersonName"
         android:text="Name"
         android:focusable="false"
-        app:layout_constraintBottom_toTopOf="@+id/eventURL2"
+        app:layout_constraintBottom_toTopOf="@+id/eventInfo2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.137"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/eventURL2"
+        android:id="@+id/eventInfo2"
         android:layout_width="333dp"
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
@@ -83,8 +82,8 @@
 
     <ImageView
         android:id="@+id/img_event1"
-        android:layout_width="286dp"
-        android:layout_height="130dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -105,13 +104,13 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/eventURL1"
+        app:layout_constraintBottom_toTopOf="@+id/eventInfo1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.148"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/eventURL1"
+        android:id="@+id/eventInfo1"
         android:layout_width="333dp"
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
@@ -137,7 +136,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_next"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventURL2" />
+        app:layout_constraintTop_toBottomOf="@+id/eventInfo2" />
 
     <Button
         android:id="@+id/btn_next"
@@ -149,7 +148,7 @@
         android:text="вперед"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventURL2"
+        app:layout_constraintTop_toBottomOf="@+id/eventInfo2"
         app:layout_constraintVertical_bias="0.55" />
 
     <Button
@@ -161,7 +160,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="добавить"
-        app:layout_constraintBottom_toTopOf="@+id/eventURL1"
+        app:layout_constraintBottom_toTopOf="@+id/eventInfo1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/event1"
         app:layout_constraintTop_toBottomOf="@+id/img_event1" />
@@ -175,7 +174,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="добавить"
-        app:layout_constraintBottom_toTopOf="@+id/eventURL2"
+        app:layout_constraintBottom_toTopOf="@+id/eventInfo2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/event2"
         app:layout_constraintTop_toBottomOf="@+id/img_event2" />

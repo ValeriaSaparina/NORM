@@ -7,8 +7,10 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.example.user.myapplication.API.API;
+import com.example.user.myapplication.API.CategoryResponse;
 import com.example.user.myapplication.API.EventResponse;
 import com.example.user.myapplication.API.EventsResponse;
 import com.example.user.myapplication.R;
@@ -34,22 +36,11 @@ public class Events extends AppCompatActivity {
     EditText event1;
     EditText event2;
 
-    EditText eventURL1;
-    EditText eventURL2;
+    EditText eventInfo1;
+    EditText eventInfo2;
 
     Button add_event1;
     Button add_event2;
-
-    private void setEvents(List<EventResponse> eventResponses) {
-        event1.setText(eventResponses.get(0).getName());
-        event2.setText(eventResponses.get(1).getName());
-
-        eventURL1.setText(eventResponses.get(1).getUrl());
-        eventURL2.setText(eventResponses.get(2).getUrl());
-
-        imgEvent1.setImageURI(Uri.parse(eventResponses.get(0).getPoster_image().getDefault_url()));
-        imgEvent2.setImageURI(Uri.parse(eventResponses.get(1).getPoster_image().getDefault_url()));
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +50,8 @@ public class Events extends AppCompatActivity {
         event1 = findViewById(R.id.event1);
         event2 = findViewById(R.id.event2);
 
-        eventURL1 = findViewById(R.id.eventURL1);
-        eventURL2 = findViewById(R.id.eventURL2);
+        eventInfo1 = findViewById(R.id.eventInfo1);
+        eventInfo2 = findViewById(R.id.eventInfo2);
 
         add_event1 = findViewById(R.id.add_event1);
         add_event2 = findViewById(R.id.add_event2);
@@ -92,12 +83,21 @@ public class Events extends AppCompatActivity {
                     Log.d("API", "raw response: " + response.raw().toString());
                     if (eventsResponse == null) Log.d("API", "response is null");
                     else {
+
+                        //Picasso.get().load(eventsResponse.getValues().get(0).getPoster_image().getDefault_url()).resize(800, 100).into(imgEvent1);
+
                         List<EventResponse> myList = eventsResponse.getValues();
-                        setEvents(myList);
+
                         Picasso.get().load(myList.get(0).getPoster_image().getDefault_url()).into(imgEvent1);
-                        Picasso.get().load("https://ucare.timepad.ru/b1fccc2f-c435-44f7-8a08-05073a817fd4/-/preview/100x800/").into(imgEvent1);
-//                        imgEvent1.setImageURI(Uri.parse("https://ucare.timepad.ru/b1fccc2f-c435-44f7-8a08-05073a817fd4/-/preview/100x800/"));
-//                        imgEvent2.setImageURI(Uri.parse(myList.get(1).getPoster_image().getDefault_url()));
+                        Picasso.get().load(myList.get(1).getPoster_image().getDefault_url()).into(imgEvent2);
+
+                        event1.setText(myList.get(0).getName());
+                        event2.setText(myList.get(1).getName());
+
+                        eventInfo2.setText((CharSequence) myList.get(1).getCategories().get(0));
+
+
+
                         for(EventResponse er: myList) {
                             Log.d("API", "id = " + er.getId() + " name = " + er.getName() + " url = " + er.getUrl() + " img = " + er.getPoster_image().getDefault_url());
                         }
