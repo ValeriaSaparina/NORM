@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -73,7 +74,9 @@ public class Events extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         API api = retrofit.create(API.class);
-        Call<EventsResponse> call = api.eventList(2);
+        List<String> cityList = new ArrayList<String>();
+        cityList.add("Казань");
+        Call<EventsResponse> call = api.eventList(2, 10, cityList);
         call.enqueue(new Callback<EventsResponse>() {
             @Override
             public void onResponse(Call<EventsResponse> call, Response<EventsResponse> response) {
