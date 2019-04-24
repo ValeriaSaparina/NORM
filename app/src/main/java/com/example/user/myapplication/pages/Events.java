@@ -1,21 +1,23 @@
 package com.example.user.myapplication.pages;
 
-import android.net.Uri;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.example.user.myapplication.API.API;
-import com.example.user.myapplication.API.CategoryResponse;
 import com.example.user.myapplication.API.EventResponse;
 import com.example.user.myapplication.API.EventsResponse;
 import com.example.user.myapplication.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -28,6 +30,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Events extends AppCompatActivity {
+
+    static int i;
 
     static final String BASE_URL = "https://api.timepad.ru/";
 
@@ -64,59 +68,76 @@ public class Events extends AppCompatActivity {
 
     }
 
-    void getReport() {
-        Log.d("API", "start");
-        Gson gson = new GsonBuilder()
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()) {
+            case R.id.btn_next:
+                i += 2;
+                intent = new Intent(this, Events.class);
+                startActivity(intent);
+                Log.d("API", "i = " + i);
+            case R.id.btn_back:
+                i -= 2;
+                intent = new Intent(this, Events.class);
+                startActivity(intent);
+                Log.d("API", "i = " + i);
+        }
+    }
+
+        void getReport () {
+            Log.d("API", "start");
+            Gson gson = new GsonBuilder()
                     .setLenient()
                     .create();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-        API api = retrofit.create(API.class);
-        List<String> cityList = new ArrayList<String>();
-        cityList.add("Казань");
-        Call<EventsResponse> call = api.eventList(2, 10, cityList);
-        call.enqueue(new Callback<EventsResponse>() {
-            @Override
-            public void onResponse(Call<EventsResponse> call, Response<EventsResponse> response) {
-                try {
-                    EventsResponse eventsResponse = response.body();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build();
+            API api = retrofit.create(API.class);
+            List<String> cityList = new ArrayList<>();
+            cityList.add("Казань");
+            Call<EventsResponse> call = api.eventList(2, 2, cityList);
+            call.enqueue(new Callback<EventsResponse>() {
+                @Override
+                public void onResponse(@NonNull Call<EventsResponse> call, @NonNull Response<EventsResponse> response) {
+                    try {
+                        EventsResponse eventsResponse = response.body();
 
-                    Log.d("API", "raw response: " + response.raw().toString());
-                    if (eventsResponse == null) Log.d("API", "response is null");
-                    else {
+                        Log.d("API", "raw response: " + response.raw().toString());
+                        if (eventsResponse == null) Log.d("API", "response is null");
+                        else {
 
-                        //Picasso.get().load(eventsResponse.getValues().get(0).getPoster_image().getDefault_url()).resize(800, 100).into(imgEvent1);
+                            //Picasso.get().load(eventsResponse.getValues().get(0).getPoster_image().getDefault_url()).resize(800, 100).into(imgEvent1);
 
-                        List<EventResponse> myList = eventsResponse.getValues();
+                            List<EventResponse> myList = eventsResponse.getValues();
 
-                        Picasso.get().load(myList.get(0).getPoster_image().getDefault_url()).into(imgEvent1);
-                        Picasso.get().load(myList.get(1).getPoster_image().getDefault_url()).into(imgEvent2);
+                            Picasso.get().load(myList.get(0).getPoster_image().getDefault_url()).networkPolicy(NetworkPolicy.NO_CACHE)
+                                    .memoryPolicy(MemoryPolicy.NO_CACHE).into(imgEvent1);
+                            Picasso.get().load(myList.get(1).getPoster_image().getDefault_url()).networkPolicy(NetworkPolicy.NO_CACHE)
+                                    .memoryPolicy(MemoryPolicy.NO_CACHE).into(imgEvent2);
 
-                        event1.setText(myList.get(0).getName());
-                        event2.setText(myList.get(1).getName());
+                            event1.setText(myList.get(0).getName());
+                            event2.setText(myList.get(1).getName());
 
-                        eventInfo2.setText((CharSequence) myList.get(1).getCategories().get(0));
+                            //eventInfo2.setText((CharSequence) myList.get(1).getCategories().get(0));
 
 
-
-                        for(EventResponse er: myList) {
-                            Log.d("API", "id = " + er.getId() + " name = " + er.getName() + " url = " + er.getUrl() + " img = " + er.getPoster_image().getDefault_url());
+                            for (EventResponse er : myList) {
+                                Log.d("API", "id = " + er.getId() + " name = " + er.getName() + " url = " + er.getUrl() + " img = " + er.getPoster_image().getDefault_url());
+                            }
+                            Log.d("API", "event list is " + eventsResponse.getTotal() + " length");
                         }
-                        Log.d("API", "event list is " + eventsResponse.getTotal() + " length");
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+
+
                 }
 
-
-            }
-
-            @Override
-            public void onFailure(Call<EventsResponse> call, Throwable t) {
-                Log.d("API", "failed");
-            }
-        });
-    }
+                @Override
+                public void onFailure(@NonNull Call<EventsResponse> call, @NonNull Throwable t) {
+                    Log.d("API", "failed");
+                }
+            });
+        }
 }
