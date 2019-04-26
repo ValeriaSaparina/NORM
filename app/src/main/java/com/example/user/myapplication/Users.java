@@ -34,12 +34,12 @@ public class Users {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Users user = dataSnapshot.getValue(Users.class);
   //                      Name[0] = user.name;
-                        Log.d("qqq", user.toString() + user.about);
+                        Log.d("DATABASE", user.toString() + user.about);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Log.d("qqq", "FAILED");                    }
+                        Log.d("DATABASE", "FAILED");                    }
                 });
         return Name[0];
     }
@@ -53,12 +53,12 @@ public class Users {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Users user = dataSnapshot.getValue(Users.class);
                         //lastName[0] = user.lastname;
-                        Log.d("qqq", user.toString() );
+                        Log.d("DATABASE", user.toString() );
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Log.d("qqq", "FAILED");                    }
+                        Log.d("DATABASE", "FAILED");                    }
                 });
         return lastName[0];
     }
@@ -72,12 +72,12 @@ public class Users {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Users user = dataSnapshot.getValue(Users.class);
                         About[0] = user.about;
-                        Log.d("qqq", About[0]);
+                        Log.d("DATABASE", About[0]);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Log.d("qqq", "FAILED");
+                        Log.d("DATABASE", "FAILED");
                     }
                 });
         return About[0];

@@ -44,6 +44,8 @@
         <activity
             android:name=".pages.Area_Edit"
             android:screenOrientation="portrait" />
+        <activity android:name=".design.Des"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -7,10 +7,10 @@
     tools:context=".pages.SignIn"
     tools:layout_editor_absoluteY="25dp">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/Toolbar"
-        tools:ignore="MissingConstraints" />
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/Toolbar"-->
+        <!--style="@style/Toolbar"-->
+        <!--tools:ignore="MissingConstraints" />-->
 
     <EditText
         android:id="@+id/TextZareg"

@@ -47,10 +47,14 @@ public class Events extends AppCompatActivity {
     Button add_event1;
     Button add_event2;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
+
+
 
         event1 = findViewById(R.id.event1);
         event2 = findViewById(R.id.event2);
@@ -64,7 +68,7 @@ public class Events extends AppCompatActivity {
         imgEvent1 = findViewById(R.id.img_event1);
         imgEvent2 = findViewById(R.id.img_event2);
 
-        getReport();
+        getReport(i);
 
     }
 
@@ -84,7 +88,7 @@ public class Events extends AppCompatActivity {
         }
     }
 
-        void getReport () {
+        void getReport (int i) {
             Log.d("API", "start");
             Gson gson = new GsonBuilder()
                     .setLenient()
@@ -96,7 +100,7 @@ public class Events extends AppCompatActivity {
             API api = retrofit.create(API.class);
             List<String> cityList = new ArrayList<>();
             cityList.add("Казань");
-            Call<EventsResponse> call = api.eventList(2, 2, cityList);
+            Call<EventsResponse> call = api.eventList(2, i, cityList);
             call.enqueue(new Callback<EventsResponse>() {
                 @Override
                 public void onResponse(@NonNull Call<EventsResponse> call, @NonNull Response<EventsResponse> response) {
@@ -130,8 +134,6 @@ public class Events extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-
                 }
 
                 @Override

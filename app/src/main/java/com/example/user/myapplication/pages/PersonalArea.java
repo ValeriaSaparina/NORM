@@ -39,7 +39,6 @@ public class PersonalArea extends AppCompatActivity implements View.OnClickListe
 //                break;
             //TODO: сделай обработку добавления в гиды пользователей
         }
-        //TODO: сделаей вместо EditTExt TextView
     }
 
 

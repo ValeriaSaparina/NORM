@@ -7,12 +7,12 @@
     tools:context=".pages.Tours"
     tools:layout_editor_absoluteY="81dp">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/Toolbar"
-        android:layout_marginBottom="676dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/Toolbar"-->
+        <!--style="@style/Toolbar"-->
+        <!--android:layout_marginBottom="676dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent" />-->
 
     <ImageView
         android:id="@+id/imageView6"

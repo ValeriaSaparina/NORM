@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.user.myapplication.R;
+import com.example.user.myapplication.design.Des;
 
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
@@ -25,8 +26,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         btnEvents = findViewById(R.id.Events);
         btnEvents.setOnClickListener(this);
 
-//        btnNews = findViewById(R.id.News);
-//        btnNews.setOnClickListener(this);
+        btnNews = findViewById(R.id.news);
+        btnNews.setOnClickListener(this);
 //
 //        btnTours = findViewById(R.id.Tours);
 //        btnTours.setOnClickListener(this);
@@ -51,10 +52,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
 
-//            case R.id.News:
-//                intent = new Intent(this, News.class);
-//                startActivity(intent);
-//                break;
+            case R.id.news:
+                intent = new Intent(this, Des.class);
+                startActivity(intent);
+                break;
 //
 //            case R.id.Tours:
 //                intent = new Intent(this, Tours.class);
