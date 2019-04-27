@@ -99,7 +99,7 @@ public class TileContentFragment extends Fragment {
         // Set numbers of List in RecyclerView.
 
 
-        private final String[] mPlacePictures;
+        //private final String[] mPlacePictures;
         private String[] names;
 
         public ContentAdapter(Context context) {
@@ -109,6 +109,7 @@ public class TileContentFragment extends Fragment {
 //            for (int i = 0; i < mPlacePictures.length; i++) {
 //                mPlacePictures[i] = a.getDrawable(i);
 //            }
+            names = new String[LENGTH];
             Log.d("API", "start");
             Gson gson = new GsonBuilder()
                     .setLenient()
@@ -135,10 +136,15 @@ public class TileContentFragment extends Fragment {
                                 Log.d("API", "id = " + er.getId() + " name = " + er.getName() + " url = " + er.getUrl() + " img = " + er.getPoster_image().getDefault_url());
                             }
                             Log.d("API", "event list is " + eventsResponse.getTotal() + " length");
+                            Log.d("API", "size: ");
+                            for (int i = 0; i < LENGTH; i++) {
+                                names[i] = myList.get(i).getName();
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
                 }
 
                 @Override
@@ -147,12 +153,7 @@ public class TileContentFragment extends Fragment {
                 }
             });
 
-            mPlacePictures = new String[LENGTH];
-            names = new String[LENGTH];
-            Log.d("API", "size: ");
-            for (int i = 0; i < LENGTH; i++) {
-                names[i] = myList.get(i).getName();
-            }
+
         }
 
         @Override
@@ -163,7 +164,8 @@ public class TileContentFragment extends Fragment {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             //for (int i = 0; i < 18; i++) holder.picture.setImageURI(Uri.parse(mPlacePictures[i]));
-            for (int i = 0; i < LENGTH; i++) holder.name.setText(names[i]);
+            //holder.name.setText(names[position]);
+            holder.name.setText(names[position % names.length]);
         }
 
         @Override
