@@ -40,6 +40,9 @@ import com.example.user.myapplication.R;
 import com.example.user.myapplication.pages.Events;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,6 +62,7 @@ public class TileContentFragment extends Fragment {
 
     static final String BASE_URL = "https://api.timepad.ru/";
     private static final int LENGTH = 18;
+    private static List<EventResponse> myList;
 
 
     public ImageView picture;
@@ -105,7 +109,6 @@ public class TileContentFragment extends Fragment {
 //            for (int i = 0; i < mPlacePictures.length; i++) {
 //                mPlacePictures[i] = a.getDrawable(i);
 //            }
-
             Log.d("API", "start");
             Gson gson = new GsonBuilder()
                     .setLenient()
@@ -117,17 +120,38 @@ public class TileContentFragment extends Fragment {
             API api = retrofit.create(API.class);
             List<String> cityList = new ArrayList<>();
             cityList.add("Казань");
-            Call<EventsResponse> call = api.eventList(LENGTH, cityList);
+            Call<EventsResponse> call = api.eventList(2, LENGTH, cityList);
+            call.enqueue(new Callback<EventsResponse>() {
+                @Override
+                public void onResponse(@NonNull Call<EventsResponse> call, @NonNull Response<EventsResponse> response) {
+                    try {
+                        EventsResponse eventsResponse = response.body();
+
+                        Log.d("API", "raw response: " + response.raw().toString());
+                        if (eventsResponse == null) Log.d("API", "response is null");
+                        else {
+                            myList = eventsResponse.getValues();
+                            for (EventResponse er : myList) {
+                                Log.d("API", "id = " + er.getId() + " name = " + er.getName() + " url = " + er.getUrl() + " img = " + er.getPoster_image().getDefault_url());
+                            }
+                            Log.d("API", "event list is " + eventsResponse.getTotal() + " length");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<EventsResponse> call, @NonNull Throwable t) {
+                    Log.d("API", "failed");
+                }
+            });
 
             mPlacePictures = new String[LENGTH];
             names = new String[LENGTH];
             Log.d("API", "size: ");
             for (int i = 0; i < LENGTH; i++) {
-                try {
-                    names[i] = Objects.requireNonNull(call.execute().body()).getValues().get(i).getName();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                names[i] = myList.get(i).getName();
             }
         }
 
@@ -146,6 +170,7 @@ public class TileContentFragment extends Fragment {
         public int getItemCount() {
             return LENGTH;
         }
+
     }
 }
 
