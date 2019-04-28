@@ -1,5 +1,6 @@
 package com.example.user.myapplication;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -12,75 +13,62 @@ public class Users {
 
     private DatabaseReference mDatabase;
 
-    private String name;
-    public String lastname;
-    private String about;
-
-//    private String information;
-//    private String email;
-
     public Users() {
-        name = "name";
-        lastname = "lastname";
-        about = "aBout";
     }
 
     public String getName(String uID) {
-        final String[] Name = {""};
+        final String[] str = {""};
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child(uID).child("name").addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        str[0] = dataSnapshot.getValue(String.class);
+                        Log.d("DATABASE", "name: " + str[0]);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.d("DATABASE", "FAILED");                    }
+                });
+        return str[0];
+    }
+
+    public String getLastname(String uID) {
+        final String[] str = new String[1];
+                mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child(uID).child("lastname").addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        str[0] = dataSnapshot.getValue(String.class);
+                        Log.d("DATABASE", "lastname: " + str[0]);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.d("DATABASE", "FAILED");                    }
+                });
+        return str[0];
+    }
+
+    public String getAbout(String uID) {
+        final String[] str = {""};
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child(uID).child("about").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Users user = dataSnapshot.getValue(Users.class);
-  //                      Name[0] = user.name;
-                        Log.d("DATABASE", user.toString() + user.about);
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        str[0] = dataSnapshot.getValue(String.class);
+                        Log.d("DATABASE", "about: " + str[0]);
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.d("DATABASE", "FAILED");                    }
-                });
-        return Name[0];
-    }
-
-    public String getLastname(String uID) {
-        final String[] lastName = {""};
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child(uID).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Users user = dataSnapshot.getValue(Users.class);
-                        //lastName[0] = user.lastname;
-                        Log.d("DATABASE", user.toString() );
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.d("DATABASE", "FAILED");                    }
-                });
-        return lastName[0];
-    }
-
-    public String getAbout(String uID) {
-        final String[] About = {""};
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child(uID).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Users user = dataSnapshot.getValue(Users.class);
-                        About[0] = user.about;
-                        Log.d("DATABASE", About[0]);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
                         Log.d("DATABASE", "FAILED");
                     }
                 });
-        return About[0];
+        return str[0];
     }
 }
 

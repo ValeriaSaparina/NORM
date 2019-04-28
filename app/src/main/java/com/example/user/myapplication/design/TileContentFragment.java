@@ -17,8 +17,6 @@
 package com.example.user.myapplication.design;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,19 +33,13 @@ import android.widget.TextView;
 import com.example.user.myapplication.API.API;
 import com.example.user.myapplication.API.EventResponse;
 import com.example.user.myapplication.API.EventsResponse;
-import com.example.user.myapplication.API.Report;
 import com.example.user.myapplication.R;
-import com.example.user.myapplication.pages.Events;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,9 +47,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Provides UI for the view with Tiles.
- */
 public class TileContentFragment extends Fragment {
 
     static final String BASE_URL = "https://api.timepad.ru/";
@@ -65,11 +54,8 @@ public class TileContentFragment extends Fragment {
     private static List<EventResponse> myList;
 
 
-    public ImageView picture;
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
@@ -84,32 +70,24 @@ public class TileContentFragment extends Fragment {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView picture;
+        ImageView picture;
         public TextView name;
-        public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
+        ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_tile, parent, false));
-            picture = (ImageView) itemView.findViewById(R.id.tile_picture);
-            name = (TextView) itemView.findViewById(R.id.tile_title);
+            picture = itemView.findViewById(R.id.tile_picture);
+            name = itemView.findViewById(R.id.tile_title);
         }
     }
     /**
      * Adapter to display recycler view.
      */
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
-        // Set numbers of List in RecyclerView.
-
-
-        //private final String[] mPlacePictures;
         private String[] names;
+        private String[] images;
 
-        public ContentAdapter(Context context) {
-//            Resources resources = context.getResources();
-//            TypedArray a = resources.obtainTypedArray(R.array.places_picture);
-//            mPlacePictures = new Drawable[a.length()];
-//            for (int i = 0; i < mPlacePictures.length; i++) {
-//                mPlacePictures[i] = a.getDrawable(i);
-//            }
+        ContentAdapter(Context context) {
             names = new String[LENGTH];
+            images = new String[LENGTH];
             Log.d("API", "start");
             Gson gson = new GsonBuilder()
                     .setLenient()
@@ -121,7 +99,7 @@ public class TileContentFragment extends Fragment {
             API api = retrofit.create(API.class);
             List<String> cityList = new ArrayList<>();
             cityList.add("Казань");
-            Call<EventsResponse> call = api.eventList(2, LENGTH, cityList);
+            Call<EventsResponse> call = api.eventList(LENGTH, 70, cityList);
             call.enqueue(new Callback<EventsResponse>() {
                 @Override
                 public void onResponse(@NonNull Call<EventsResponse> call, @NonNull Response<EventsResponse> response) {
@@ -136,9 +114,10 @@ public class TileContentFragment extends Fragment {
                                 Log.d("API", "id = " + er.getId() + " name = " + er.getName() + " url = " + er.getUrl() + " img = " + er.getPoster_image().getDefault_url());
                             }
                             Log.d("API", "event list is " + eventsResponse.getTotal() + " length");
-                            Log.d("API", "size: ");
                             for (int i = 0; i < LENGTH; i++) {
                                 names[i] = myList.get(i).getName();
+                                images[i] = myList.get(i).getPoster_image().getDefault_url();
+
                             }
                         }
                     } catch (Exception e) {
@@ -154,18 +133,25 @@ public class TileContentFragment extends Fragment {
             });
 
 
+
+
         }
 
+        @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            //for (int i = 0; i < 18; i++) holder.picture.setImageURI(Uri.parse(mPlacePictures[i]));
-            //holder.name.setText(names[position]);
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            Log.d("API", "name2: " + names[position % names.length]);
             holder.name.setText(names[position % names.length]);
+                if (images[position] != null) {
+                    Picasso.get().load(images[position % names.length]).into(holder.picture);
+                    Log.d("API", "img2: " + images[position % names.length]);
+                }
+                else Log.d("API", "img: " + position);
         }
 
         @Override
