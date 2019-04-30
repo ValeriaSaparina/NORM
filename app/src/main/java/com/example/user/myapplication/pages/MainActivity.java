@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.user.myapplication.R;
-import com.example.user.myapplication.Users;
+import com.example.user.myapplication.design.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button btnVhodMain;
     Button btnZaregMain;
+
+    public String username;
 
     private FirebaseAuth mAuth;
 
@@ -35,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            Users users = new Users();
-            Log.d("FIREBASE", "name: " + users.getName(user.getUid()));
             Intent intent = new Intent(MainActivity.this, Main.class);
             startActivity(intent);
         }

@@ -35,32 +35,33 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/card_image_height"
             android:scaleType="centerCrop"
-            tools:src="@tools:sample/avatars" />
+            tools:src="@color/photo"
+            android:background="@color/photo"/>
 
         <TextView
             android:id="@+id/card_title"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/card_title_height"
+            android:layout_width="366dp"
+            android:layout_height="73dp"
             android:layout_alignBottom="@+id/card_image"
             android:layout_marginLeft="@dimen/md_keylines"
-            tools:text="///"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/white" />
+            android:textColor="@color/black"
+            tools:text="///" />
 
         <TextView
             android:id="@+id/card_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="363dp"
+            android:layout_height="38dp"
             android:layout_below="@+id/card_image"
             android:layout_marginLeft="@dimen/md_keylines"
-            android:layout_marginTop="@dimen/md_keylines"
-            android:layout_marginBottom="@dimen/md_keylines"
+            android:layout_marginTop="0dp"
             android:layout_marginRight="@dimen/md_keylines"
-            tools:text="///"
+            android:layout_marginBottom="@dimen/md_keylines"
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/dark_grey"
-            android:textSize="@dimen/article_subheading" />
+            android:textSize="@dimen/article_subheading"
+            tools:text="///" />
 
         <Button
             android:id="@+id/action_button"

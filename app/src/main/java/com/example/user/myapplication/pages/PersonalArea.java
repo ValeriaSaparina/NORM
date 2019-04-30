@@ -28,10 +28,10 @@ public class PersonalArea extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.editButton:
-                Intent intent = new Intent(this, Area_Edit.class);
-                startActivity(intent);
-                break;
+//            case R.id.editButton:
+//                Intent intent = new Intent(this, Area_Edit.class);
+//                startActivity(intent);
+//                break;
 
 //            case R.id.zareg1:
 //                Intent intent2 = new Intent(this, .class);
