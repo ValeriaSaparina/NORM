@@ -3,12 +3,10 @@ package com.example.user.myapplication.pages;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.user.myapplication.R;
-import com.example.user.myapplication.design.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -25,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAuth.signOut();
 
         btnVhodMain = findViewById(R.id.vhod1);
         btnVhodMain.setOnClickListener(this);
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.zareg1:
-                Intent intent2 = new Intent(this, registration.class);
+                Intent intent2 = new Intent(this, Registration.class);
                 startActivity(intent2);
                 break;
         }

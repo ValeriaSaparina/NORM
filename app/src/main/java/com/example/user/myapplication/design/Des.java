@@ -36,9 +36,9 @@ public class Des extends AppCompatActivity {
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
+        adapter.addFragment(new CardContentFragment(), "Events");
+        adapter.addFragment(new TileContentFragment(), "Mine");
         adapter.addFragment(new EditFragment(), "Edit");
-        adapter.addFragment(new TileContentFragment(), "Tile");
-        adapter.addFragment(new CardContentFragment(), "Card");
         viewPager.setAdapter(adapter);
     }
 

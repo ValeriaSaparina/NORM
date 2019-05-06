@@ -7,6 +7,8 @@ public class EventResponse {
     private String name;
     private String url;
     private ImageResponse poster_image;
+    private String starts_at;
+    private String ends_at;
 
     public List<CategoryResponse> getCategories() {
         return categories;
@@ -48,5 +50,21 @@ public class EventResponse {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getStarts_at() {
+        return starts_at;
+    }
+
+    public void setStarts_at(String starts_at) {
+        this.starts_at = starts_at;
+    }
+
+    public String getEnds_at() {
+        return ends_at;
+    }
+
+    public void setEnds_at(String ends_at) {
+        this.ends_at = ends_at;
     }
 }

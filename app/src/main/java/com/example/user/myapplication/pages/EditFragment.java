@@ -1,6 +1,5 @@
 package com.example.user.myapplication.pages;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -10,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,18 +18,17 @@ import com.example.user.myapplication.design.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EditFragment extends Fragment {
-
-
+    static String fullname;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
-        ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
+        ContentAdapter adapter = new ContentAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -38,14 +37,18 @@ public class EditFragment extends Fragment {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView picture;
-        TextView name;
-        TextView description;
+        TextView nameEdit;
+        TextView cityEdit;
+        TextView mailEdit;
+        Button btn_delete;
 
         ViewHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.item_card, parent, false));
-            picture = itemView.findViewById(R.id.card_image);
-            name = itemView.findViewById(R.id.card_title);
-            description = itemView.findViewById(R.id.card_text);
+            super(inflater.inflate(R.layout.item_card_edit, parent, false));
+            picture = itemView.findViewById(R.id.card_image_edit);
+            nameEdit = itemView.findViewById(R.id.card_title_edit);
+            cityEdit = itemView.findViewById(R.id.card_city_text_edit);
+            mailEdit = itemView.findViewById(R.id.card_mail_text_edit);
+            btn_delete = itemView.findViewById(R.id.action_button_edit);
         }
     }
 
@@ -54,25 +57,22 @@ public class EditFragment extends Fragment {
      */
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         private static final int LENGTH = 1;
-        private String nameUser;
-        private String lastnameUser;
-        private String aboutUser;
-        private String emailUser;
+//        private String emailUser;
 
         private FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        private Users users = new Users(Objects.requireNonNull(user).getUid());
 
 
+        View.OnClickListener onClickListener;
 
-        ContentAdapter(Context context) {
 
-            lastnameUser = users.getLastnameUser();
-            aboutUser = users.getAboutUser();
-            nameUser = users.getNameUser();
+        ContentAdapter() {
+//            emailUser = user.getEmail();
+            Users users = new Users();
+            users.read(mAuth.getUid());
 
-            emailUser = user.getEmail();
-            Log.d("API", "userName: " + nameUser);
+
+            fullname = users.getNameUser() + " " + users.getSurnameUser();
         }
 
         @NonNull
@@ -83,19 +83,64 @@ public class EditFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//            nameUser = users.getName(user.getUid());
-//            lastnameUser = users.getLastname(user.getUid());
-//            aboutUser = users.getAbout(user.getUid());
-//            emailUser = user.getEmail();
-            String fullname = users.getNameUser() + " " + users.getLastnameUser();
+            Users users = new Users();
+            users.read(mAuth.getUid());
+            Log.d("API", mAuth.getUid());
             Log.d("API", "fullname: " + fullname);
             Log.d("API", "getUserNAme() = " + users.getNameUser());
-            Log.d("API", "getLastnameUser() = " + users.getLastnameUser());
-            holder.name.setText(fullname);
-//            Log.d("API", "namEUSER: null");
-//            Log.d("API", "nameAAA: " + users.getNameUser());
-//            Log.d("API", "AAAAAAAAAAAAAAAAAA");
-            holder.description.setText(aboutUser);
+            Log.d("API", "getSurnameUser() = " + users.getSurnameUser());
+            Log.d("API", "mail: " + users.getmailUser());
+            holder.nameEdit.setText(fullname);
+            holder.cityEdit.setText(users.getCityUser());
+            holder.mailEdit.setText(users.getmailUser());
+
+            AtomicBoolean flag = new AtomicBoolean(false);
+
+            onClickListener = v -> {
+                Log.d("API", "AAA");
+                if (v.getId() == R.id.tile_delete_button) {
+                    holder.nameEdit.setClickable(true);
+                    holder.cityEdit.setClickable(true);
+                    holder.mailEdit.setClickable(true);
+
+                    holder.nameEdit.setFocusable(true);
+                    holder.cityEdit.setFocusable(true);
+                    holder.mailEdit.setFocusable(true);
+
+                    holder.nameEdit.setLongClickable(true);
+                    holder.cityEdit.setLongClickable(true);
+                    holder.mailEdit.setLongClickable(true);
+
+
+
+                    holder.btn_delete.setText("Сохранить");
+
+                    flag.set(true);
+                }
+            };
+            holder.btn_delete.setOnClickListener(onClickListener);
+
+            if (flag.get()) {
+                onClickListener = v -> {
+                    if (v.getId() == R.id.tile_delete_button) {
+                        String[] str;
+                        String str2 = (String) holder.nameEdit.getText();
+                        str = str2.split(" ");
+
+                        Users.setNameUser(str[0]);
+                        Users.setSurnameUser(str[1]);
+                        Users.setCityUser((String) holder.cityEdit.getText());
+                        Users.setMailUser((String) holder.mailEdit.getText());
+
+                        users.write(mAuth.getUid());
+                        holder.nameEdit.setText(users.getNameUser() + users.getSurnameUser());
+                        holder.mailEdit.setText(users.getmailUser());
+                        holder.cityEdit.setText(users.getCityUser());
+                        holder.btn_delete.setText("Изменить");
+                    }
+                };
+                holder.btn_delete.setOnClickListener(onClickListener);
+            }
         }
 
         @Override

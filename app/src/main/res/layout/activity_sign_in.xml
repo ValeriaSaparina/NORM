@@ -7,16 +7,12 @@
     tools:context=".pages.SignIn"
     tools:layout_editor_absoluteY="25dp">
 
-    <!--<android.support.v7.widget.Toolbar-->
-        <!--android:id="@+id/Toolbar"-->
-        <!--style="@style/Toolbar"-->
-        <!--tools:ignore="MissingConstraints" />-->
-
     <EditText
         android:id="@+id/TextZareg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="152dp"
+        android:layout_marginBottom="290dp"
         android:background="@android:color/transparent"
         android:cursorVisible="false"
         android:ems="10"
@@ -26,6 +22,7 @@
         android:longClickable="false"
         android:text="Вход"
         android:textSize="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/reg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,9 +59,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="41dp"
+        android:onClick="onClick"
         android:text="Войти"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordVhod"
         tools:ignore="HardcodedText,MissingConstraints" />
+
+    <Button
+        android:id="@+id/reg"
+        android:layout_width="239dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="206dp"
+        android:onClick="onClick"
+        android:text="регистрация"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextZareg" />
 </android.support.constraint.ConstraintLayout>

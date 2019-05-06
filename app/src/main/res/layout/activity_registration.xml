@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.registration">
+    tools:context=".pages.Registration">
     <!---->
     <!--<android.support.v7.widget.Toolbar-->
         <!--android:id="@+id/Toolbar"-->
@@ -34,10 +34,10 @@
         android:id="@+id/nameZareg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="21dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="48dp"
         android:ems="10"
-        android:hint="Введите имя"
+        android:hint="имя"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TextZareg"
@@ -47,10 +47,10 @@
         android:id="@+id/surnameZareg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="Введите фамилию"
+        android:hint="фамилия"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameZareg"
@@ -60,49 +60,50 @@
         android:id="@+id/e-mailZareg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="27dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="Введите e-mail"
+        android:hint="e-mail"
         android:inputType="textEmailAddress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/surnameZareg"
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/password1Zareg"
+        android:id="@+id/cityReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="29dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="Введите пароль"
-        android:inputType="textPassword"
+        android:hint="город"
+        android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/e-mailZareg"
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/password2Zareg"
+        android:id="@+id/passwordZareg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="Повторите пароль"
+        android:hint="пароль"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password1Zareg"
+        app:layout_constraintTop_toBottomOf="@+id/cityReg"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/zareg2"
-        android:layout_width="179dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="104dp"
+        android:layout_width="227dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="60dp"
         android:text="Зарегистрироваться"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.565"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 

@@ -13,7 +13,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
     Button btnEvents;
     Button btnNews;
-    Button btnTours;
     Button btnGuides;
     Button btnFindFriends;
     Button btnPersonalArea;

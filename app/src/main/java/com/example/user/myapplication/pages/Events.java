@@ -123,7 +123,7 @@ public class Events extends AppCompatActivity {
                             event1.setText(myList.get(0).getName());
                             event2.setText(myList.get(1).getName());
 
-                            //eventInfo2.setText((CharSequence) myList.get(1).getCategories().get(0));
+                            //eventInfo2.setText((CharSequence) myList.get(desk).getCategories().get(0));
 
 
                             for (EventResponse er : myList) {

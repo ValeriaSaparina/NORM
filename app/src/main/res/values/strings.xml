@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WeekTravel</string>
+    <string name="app_name">Weekend Getaway</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
@@ -79,4 +79,9 @@
     <string name="news">Новости</string>
     <string name="guides">Гиды</string>
     <string name="tours">Экскурсии</string>
+    <string name="add">Добавить</string>
+    <string name="edit">Изменить</string>
+    <string name="city">Город</string>
+    <string name="date">Date:</string>
+    <string name="category">category</string>
 </resources>
