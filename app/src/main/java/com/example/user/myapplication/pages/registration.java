@@ -1,9 +1,9 @@
 package com.example.user.myapplication.pages;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,14 +11,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.user.myapplication.R;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.user.myapplication.design.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class registration extends AppCompatActivity implements View.OnClickListener {
+
+public class Registration extends AppCompatActivity implements View.OnClickListener {
 
 
     Button btnZareg2;
@@ -26,15 +24,16 @@ public class registration extends AppCompatActivity implements View.OnClickListe
     EditText etSurnameZareg;
     EditText etMailZareg;
     EditText etPassword1Zareg;
-    EditText etPassword2Zareg;
+    EditText etCityReg;
 
+    public String mail;
+    public String name;
+    public String city;
+    public String surname;
+    public String password;
 
+    FirebaseUser currentUser;
     private FirebaseAuth mAuth;
-
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +46,8 @@ public class registration extends AppCompatActivity implements View.OnClickListe
         etNameZareg = findViewById(R.id.nameZareg);
         etSurnameZareg = findViewById(R.id.surnameZareg);
         etMailZareg = findViewById(R.id.e_mailZareg);
-        etPassword1Zareg = findViewById(R.id.password1Zareg);
-        etPassword2Zareg = findViewById(R.id.password2Zareg);
+        etPassword1Zareg = findViewById(R.id.passwordZareg);
+        etCityReg = findViewById(R.id.cityReg);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -61,44 +60,56 @@ public class registration extends AppCompatActivity implements View.OnClickListe
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        currentUser = mAuth.getCurrentUser();
     }
 
     private void createAccount(String email, String password) {
         Log.d("jj", "createAccount:" + email);
 
-
-
-
-        // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("jj", "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            CLICK();
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("jj", "createUserWithEmail:success");
+                        CLICK();
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("jj", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(registration.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w("jj", "createUserWithEmail:failure", task.getException());
+                        Toast.makeText(Registration.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
+    @SuppressLint("ShowToast")
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.zareg2) {
-            createAccount(etMailZareg.getText().toString(), etPassword1Zareg.getText().toString());
+        password = etPassword1Zareg.getText().toString();
+        mail = etMailZareg.getText().toString();
+        surname = etSurnameZareg.getText().toString();
+        name = etNameZareg.getText().toString();
+        city = etCityReg.getText().toString();
 
-            Intent intent = new Intent(this, Main.class);
-            startActivity(intent);
+        Users users = new Users();
+
+        if (v.getId() == R.id.zareg2) {
+            if (password.length() >= 6) {
+                createAccount(etMailZareg.getText().toString(), etPassword1Zareg.getText().toString());
+
+                Users.setNameUser(name);
+                Users.setSurnameUser(surname);
+                Users.setMailUser(mail);
+                Users.setPasswordUser(password);
+                Users.setCityUser(city);
+
+                users.write(mAuth.getUid());
+
+                Intent intent = new Intent(this, Main.class);
+                startActivity(intent);
+            }
+            else Toast.makeText(this, "у тебя точно больше 6 символов в пароле?)", Toast.LENGTH_LONG);
         }
 
 
