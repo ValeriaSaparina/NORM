@@ -13,19 +13,16 @@ public class Users {
 
     private static String nameUser;
     private static String surnameUser;
-    private static String aboutUser;
     private static String mailUser;
     private static String cityUser;
     private static String passwordUser;
-
-    private FirebaseDatabase database;
-    DatabaseReference myRef;
+    private static String uID;
 
     public Users() {
 
     }
 
-    public void read(String uID) {
+    public void read() {
         final String[] str = {""};
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("users").child(uID).child("name").addListenerForSingleValueEvent(
@@ -58,20 +55,6 @@ public class Users {
                     }
                 });
 
-        mDatabase.child("users").child(uID).child("about").addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        str[0] = dataSnapshot.getValue(String.class);
-                        Log.d("DATABASE", "about: " + str[0]);
-                        aboutUser = str[0];
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.d("DATABASE", "FAILED");
-                    }
-                });
 
         mDatabase.child("users").child(uID).child("e-mail").addListenerForSingleValueEvent(
                 new ValueEventListener() {
@@ -119,9 +102,9 @@ public class Users {
                 });
     }
 
-    public void write(String uID) {
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
+    public void write() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
 
         myRef.child("users").child(uID).child("name").setValue(nameUser);
         myRef.child("users").child(uID).child("surname").setValue(surnameUser);
@@ -129,6 +112,7 @@ public class Users {
         myRef.child("users").child(uID).child("password").setValue(passwordUser);
         myRef.child("users").child(uID).child("city").setValue(cityUser);
     }
+
 
 
 
@@ -145,15 +129,17 @@ public class Users {
         return surnameUser;
     }
 
-    public String getAboutUser() {
-        return aboutUser;
-    }
-
     public String getCityUser() {
         return cityUser;
     }
 
-    public String getPasswordUser() { return passwordUser; }
+    public static String getUID() {
+        return uID;
+    }
+
+    public static void setUID(String uID) {
+        Users.uID = uID;
+    }
 
     public static void setNameUser(String nameUser) {
         Users.nameUser = nameUser;
@@ -161,10 +147,6 @@ public class Users {
 
     public static void setSurnameUser(String surnameUser) {
         Users.surnameUser = surnameUser;
-    }
-
-    public static void setAboutUser(String aboutUser) {
-        Users.aboutUser = aboutUser;
     }
 
     public static void setMailUser(String mailUser) {

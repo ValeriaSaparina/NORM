@@ -15,6 +15,8 @@ import com.example.user.myapplication.design.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 public class SignIn extends AppCompatActivity implements View.OnClickListener {
 
     Button btnVhod2;
@@ -41,7 +43,10 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
 
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-        users.read(mAuth.getUid());
+            Log.d("API", "mAuth.getCurrentUser().getUid(): " + mAuth.getCurrentUser().getUid());
+            Log.d("API", "Objects.requireNonNull(mAuth.getCurrentUser()).getUid(): " + Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+            Users.setUID(mAuth.getCurrentUser().getUid());
+            users.read();
             Intent intent = new Intent(SignIn.this, Des.class);
             startActivity(intent);
         }
@@ -52,8 +57,11 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
                         Log.d("authentication", "signInWithEmail:success");
+
+                        Log.d("API", "Objects.requireNonNull(mAuth.getCurrentUser()).getUid(): " + Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+                        Users.setUID(mAuth.getCurrentUser().getUid());
+                        users.read();
 
                         CLICK();
                     } else {
@@ -68,7 +76,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         if (v.getId() == R.id.vhod2) {
             signIn(etEmail.getText().toString(), etPassword.getText().toString());
-            users.read(mAuth.getUid());
+
         } else
         if (v.getId() == R.id.reg) {
             Intent intent = new Intent(this, Registration.class);

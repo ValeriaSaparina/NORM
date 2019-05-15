@@ -1,5 +1,8 @@
 package com.example.user.myapplication.design;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,12 +15,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.user.myapplication.API.API;
 import com.example.user.myapplication.API.EventResponse;
 import com.example.user.myapplication.API.EventsResponse;
 import com.example.user.myapplication.R;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -38,8 +41,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CardContentFragment extends Fragment {
 
     static final String BASE_URL = "https://api.timepad.ru/";
+    static FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private static List<EventResponse> myList;
-    static Button btn;
+    @SuppressLint("StaticFieldLeak")
     static int i;
 
     @Override
@@ -57,9 +61,11 @@ public class CardContentFragment extends Fragment {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView picture;
-        public TextView name;
+        TextView name;
         TextView date;
         TextView category;
+        Button btn_add;
+        Button btn_link;
 
         ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_card, parent, false));
@@ -67,7 +73,9 @@ public class CardContentFragment extends Fragment {
             name = itemView.findViewById(R.id.card_title);
             date = itemView.findViewById(R.id.card_date_text);
             category = itemView.findViewById(R.id.card_category_text);
-            btn = itemView.findViewById(R.id.action_button);
+            btn_add = itemView.findViewById(R.id.action_button);
+            btn_link = itemView.findViewById(R.id.site_button);
+
         }
 
     }
@@ -75,22 +83,45 @@ public class CardContentFragment extends Fragment {
      * Adapter to display recycler view.
      */
     public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
-        private static final int LENGTH = 18;
+        private static final int LENGTH = 50;
         private String[] names;
         private String[] categories;
         private String[] dates;
+        private String[] links;
 
         ContentAdapter() {
-
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
             Users users = new Users();
-            users.read(mAuth.getUid());
+                if (mAuth.getCurrentUser() != null) {
+                    Log.d("API", "User is not null");
+                    Log.d("API", "uID: " + Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+                    Users.setUID(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+                    Log.d("API", "===: " + users.getNameUser());
+                } else {
+                    Log.d("API", "User is null");
+                    Users.setUID(null);
+                }
+
+            try {
+                if (users.getNameUser() == null) {
+                    Users.setUID(mAuth.getCurrentUser().getUid());
+                    users.read();
+                } else {
+                    Users.setUID(mAuth.getCurrentUser().getUid());
+                    Log.d("API", "name: " + users.getNameUser() + " " + users.getSurnameUser()
+                            + "; city: " + users.getCityUser() + "; Uid: " + Users.getUID());
+                    users.write();
+                }
+            } catch (NullPointerException ex) {
+                Log.d("API", "exception: " + null);
+            }
 
             Log.d("API", "nameWrite: " + users.getNameUser());
 
             names = new String[LENGTH];
             categories = new String[LENGTH];
             dates = new String[LENGTH];
+            links = new String[LENGTH];
+
             Log.d("API", "start");
             Gson gson = new GsonBuilder()
                     .setLenient()
@@ -102,7 +133,7 @@ public class CardContentFragment extends Fragment {
             API api = retrofit.create(API.class);
             List<String> cityList = new ArrayList<>();
             cityList.add("Казань");
-            Call<EventsResponse> call = api.eventList(LENGTH, 70, cityList);
+            Call<EventsResponse> call = api.eventList(LENGTH, cityList);
 
             call.enqueue(new Callback<EventsResponse>() {
                 @Override
@@ -123,6 +154,7 @@ public class CardContentFragment extends Fragment {
                                 char[] dst=new char[10];
                                 names[i] = myList.get(i).getName();
                                 categories[i] = myList.get(i).getCategories().get(0).getName();
+                                links[i] = myList.get(i).getUrl();
                                 myList.get(i).getStarts_at().getChars(0, 10, dst, 0);
                                 for(char c : dst) str[0] += c;
                                 dates[i] = str[0];
@@ -160,15 +192,30 @@ public class CardContentFragment extends Fragment {
             DatabaseReference myRef = database.getReference("events");
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-            View.OnClickListener onClickListener = v -> {
+            View.OnClickListener onClickListenerAdd = v -> {
                 if (v.getId() == R.id.action_button) {
-                    myRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("name").setValue(holder.name.getText());
-                    myRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("date").setValue(holder.date.getText());
-                    myRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("category").setValue(holder.category.getText());
-                    i++;
+                    if (i == LENGTH - 1) {
+                        Toast.makeText(getContext(), "Список выбранных событий полон", Toast.LENGTH_LONG).show();
+                        i = 0;
+                    } else {
+                        myRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("name").setValue(names[position]);
+                        myRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("date").setValue(dates[position]);
+                        myRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("category").setValue(categories[position]);
+                        myRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("link").setValue(links[position]);
+                        i++;
+                    }
+                }
+
+            };
+            holder.btn_add.setOnClickListener(onClickListenerAdd);
+
+            View.OnClickListener onClickListener = v -> {
+                if (v.getId() == R.id.site_button) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links[position]));
+                    startActivity(browserIntent);
                 }
             };
-            btn.setOnClickListener(onClickListener);
+            holder.btn_link.setOnClickListener(onClickListener);
         }
 
         @Override

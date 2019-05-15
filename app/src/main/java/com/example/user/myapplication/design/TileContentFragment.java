@@ -1,5 +1,8 @@
 package com.example.user.myapplication.design;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -28,8 +31,9 @@ import static com.example.user.myapplication.design.CardContentFragment.i;
 
 public class TileContentFragment extends Fragment {
 
-    static Button btnDel;
-    static int n = i;
+    protected static final int LENGTH = 10;
+
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -46,9 +50,11 @@ public class TileContentFragment extends Fragment {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView picture;
-        public TextView name;
+        TextView name;
         TextView date;
         TextView category;
+        Button btn_del;
+        Button btn_link;
 
         ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_tile, parent, false));
@@ -56,81 +62,105 @@ public class TileContentFragment extends Fragment {
             name = itemView.findViewById(R.id.tile_title);
             date = itemView.findViewById(R.id.tile_date_text);
             category = itemView.findViewById(R.id.tile_category_text);
-            btnDel = itemView.findViewById(R.id.tile_delete_button);
+            btn_del = itemView.findViewById(R.id.tile_delete_button);
+            btn_link = itemView.findViewById(R.id.tile_site_button);
         }
+
 
     }
     /**
      * Adapter to display recycler view.
      */
-    public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
-        private static final int LENGTH = 7;
+    public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+        private FirebaseDatabase database = FirebaseDatabase.getInstance();
+        private DatabaseReference myRef = database.getReference();
+        private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+
+
         private String[] names;
         private String[] categories;
         private String[] dates;
+        private String[] links;
 
         String uID;
 
-        private FirebaseDatabase database;
-        private DatabaseReference myRef;
-        private FirebaseAuth mAuth;
 
         ContentAdapter() {
 
-            database = FirebaseDatabase.getInstance();
-            myRef = database.getReference();
-            mAuth = FirebaseAuth.getInstance();
+            Log.d("API", "LENGTH: " + LENGTH);
 
             uID = mAuth.getUid();
 
             names = new String[LENGTH];
             categories = new String[LENGTH];
             dates = new String[LENGTH];
+            links = new String[LENGTH];
 
-            for (int i = 0; i < LENGTH; i++) {
-                int finalI = i;
-                Log.d("API", "i: " + i);
-                myRef.child("events").child(Objects.requireNonNull(uID)).child("event" + i).child("name").addListenerForSingleValueEvent(
-                        new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                names[finalI] = dataSnapshot.getValue(String.class);
-                            }
+            try {
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Log.d("DATABASE", "FAILED");
-                            }
-                        });
+                for (int i = 0; i < LENGTH; i++) {
+                    int finalI = i;
+                    Log.d("API", "i: " + i);
+                    myRef.child("events").child(Objects.requireNonNull(uID)).child("event" + i).child("name").addListenerForSingleValueEvent(
+                            new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    names[finalI] = dataSnapshot.getValue(String.class);
 
-                myRef.child("events").child(uID).child("event" + i).child("date").addListenerForSingleValueEvent(
-                        new ValueEventListener() {
+                                }
 
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                dates[finalI] = dataSnapshot.getValue(String.class);
-                                Log.d("DATABASE", "date: " + dates[finalI]);
-                            }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.d("DATABASE", "FAILED");
+                                }
+                            });
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Log.d("DATABASE", "FAILED");
-                            }
-                        });
+                    myRef.child("events").child(uID).child("event" + i).child("date").addListenerForSingleValueEvent(
+                            new ValueEventListener() {
 
-                myRef.child("events").child(uID).child("event" + i).child("category").addListenerForSingleValueEvent(
-                        new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                categories[finalI] = dataSnapshot.getValue(String.class);
-                                Log.d("DATABASE", "category: " + categories[finalI]);
-                            }
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    dates[finalI] = dataSnapshot.getValue(String.class);
+                                    Log.d("DATABASE", "date: " + dates[finalI]);
+                                }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Log.d("DATABASE", "FAILED");
-                            }
-                        });
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.d("DATABASE", "FAILED");
+                                }
+                            });
+
+                    myRef.child("events").child(uID).child("event" + i).child("category").addListenerForSingleValueEvent(
+                            new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    categories[finalI] = dataSnapshot.getValue(String.class);
+                                    Log.d("DATABASE", "category: " + categories[finalI]);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.d("DATABASE", "FAILED");
+                                }
+                            });
+
+                    myRef.child("events").child(uID).child("event" + i).child("link").addListenerForSingleValueEvent(
+                            new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    links[finalI] = dataSnapshot.getValue(String.class);
+                                    Log.d("DATABASE", "link: " + links[finalI]);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.d("DATABASE", "FAILED");
+                                }
+                            });
+                }
+            } catch (NullPointerException ex) {
+                Log.d("API", "exception: " + ex.getMessage());
             }
 
         }
@@ -142,7 +172,7 @@ public class TileContentFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
             holder.name.setText(names[position % names.length]);
             holder.date.setText(dates[position]);
@@ -155,7 +185,7 @@ public class TileContentFragment extends Fragment {
 
             Picasso.get().load("https://pp.userapi.com/c855628/v855628072/369ef/Tan2nppGozE.jpg").into(holder.picture);
 
-            View.OnClickListener onClickListener = v -> {
+            View.OnClickListener onClickListenerDel = v -> {
                 if (v.getId() == R.id.tile_delete_button) {
                     myRef.child("events").child(uID).child("event" + position).setValue(null);
                     myRef.child("events").child(Objects.requireNonNull(uID)).child("event" + position).child("name").addListenerForSingleValueEvent(
@@ -199,12 +229,20 @@ public class TileContentFragment extends Fragment {
                     holder.category.setText(categories[position]);
                 }
             };
-            btnDel.setOnClickListener(onClickListener);
+            holder.btn_del.setOnClickListener(onClickListenerDel);
+
+            View.OnClickListener onClickListener = v -> {
+                if (v.getId() == R.id.tile_site_button) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links[position]));
+                    startActivity(browserIntent);
+                }
+            };
+            holder.btn_link.setOnClickListener(onClickListener);
         }
 
         @Override
         public int getItemCount() {
-            return LENGTH;
+            return Math.toIntExact(LENGTH);
         }
     }
 

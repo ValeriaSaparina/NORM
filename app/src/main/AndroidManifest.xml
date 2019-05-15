@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity android:name=".design.Edit"></activity>
         <activity android:name=".pages.SignIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,26 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".pages.Registration"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".pages.Main"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".pages.Events"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".pages.News"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".pages.Tours"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".pages.Guides"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".pages.FindFriends"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".pages.PersonalArea"
-            android:screenOrientation="portrait"/>
         <activity
-            android:name=".pages.SettingsActivity"
-            android:label="@string/title_activity_settings" />
-        <activity android:name=".design.Des"
+            android:name=".pages.Registration"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".design.Des"
             android:screenOrientation="portrait" />
     </application>
 

@@ -1,5 +1,6 @@
 package com.example.user.myapplication.design;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.user.myapplication.R;
-import com.example.user.myapplication.pages.EditFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,8 +85,9 @@ public class Des extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if(id == R.id.action_update) {
+            Intent intent = new Intent(this, Des.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

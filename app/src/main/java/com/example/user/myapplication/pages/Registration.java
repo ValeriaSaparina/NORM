@@ -11,9 +11,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.user.myapplication.R;
+import com.example.user.myapplication.design.Des;
 import com.example.user.myapplication.design.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 
 public class Registration extends AppCompatActivity implements View.OnClickListener {
@@ -70,8 +73,10 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                       // Users users = new Users();
                         Log.d("jj", "createUserWithEmail:success");
-                        CLICK();
+                        Log.d("API", "uID REG: " + mAuth.getCurrentUser().getUid());
+                       // users.write(mAuth.getUid());
 
                     } else {
                         // If sign in fails, display a message to the user.
@@ -92,31 +97,41 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
         name = etNameZareg.getText().toString();
         city = etCityReg.getText().toString();
 
-        Users users = new Users();
 
         if (v.getId() == R.id.zareg2) {
             if (password.length() >= 6) {
                 createAccount(etMailZareg.getText().toString(), etPassword1Zareg.getText().toString());
+
+                Users users = new Users();
 
                 Users.setNameUser(name);
                 Users.setSurnameUser(surname);
                 Users.setMailUser(mail);
                 Users.setPasswordUser(password);
                 Users.setCityUser(city);
+ //               Users.setUID(mAuth.getCurrentUser().getUid());
 
-                users.write(mAuth.getUid());
 
-                Intent intent = new Intent(this, Main.class);
+//                users.write(mAuth.getUid());
+
+
+                Intent intent = new Intent(this, Des.class);
                 startActivity(intent);
             }
             else Toast.makeText(this, "у тебя точно больше 6 символов в пароле?)", Toast.LENGTH_LONG);
+            //Log.d("API", "Uid if:" + mAuth.getUid());
+            try {
+                Log.d("API", "mAuth.getCurrentUser().getUid(): " + Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+            } catch (NullPointerException ex) {
+                Log.d("API", "exception: " + ex.getMessage());
+            }
         }
 
 
     }
 
     private void CLICK() {
-        Intent intent = new Intent(this, Main.class);
+        Intent intent = new Intent(this, Des.class);
         startActivity(intent);
     }
 }

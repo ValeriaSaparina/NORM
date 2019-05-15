@@ -8,27 +8,29 @@
     android:layout_marginLeft="@dimen/md_keylines"
     android:layout_marginRight="@dimen/md_keylines"
     android:layout_marginBottom="@dimen/md_keylines"
-    android:foreground="?attr/selectableItemBackground">
+    tools:context=".design.Edit">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/card_image_edit"
+            android:id="@+id/image_edit"
             android:layout_width="match_parent"
             android:layout_height="@dimen/card_image_height"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
             android:background="@color/photo"
             android:scaleType="centerCrop"
             tools:src="@color/photo" />
 
-        <TextView
-            android:id="@+id/card_title_edit"
+        <EditText
+            android:id="@+id/title_edit"
             android:layout_width="313dp"
             android:layout_height="127dp"
-            android:layout_alignBottom="@+id/card_image_edit"
+            android:layout_alignBottom="@+id/image_edit"
             android:layout_marginLeft="@dimen/md_keylines"
             android:layout_marginBottom="-2dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -36,25 +38,26 @@
             tools:text="///" />
 
         <TextView
-            android:id="@+id/card_text_edit"
+            android:id="@+id/text_edit"
             android:layout_width="78dp"
             android:layout_height="40dp"
-            android:layout_below="@+id/card_image_edit"
+            android:layout_below="@+id/image_edit"
+            android:layout_alignBottom="@+id/title_edit"
             android:layout_marginLeft="@dimen/md_keylines"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="-1dp"
             android:layout_marginRight="@dimen/md_keylines"
-            android:layout_marginBottom="@dimen/md_keylines"
+            android:layout_marginBottom="-41dp"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="Город:"
             android:textColor="@color/dark_grey"
             android:textSize="@dimen/article_subheading" />
 
-        <TextView
-            android:id="@+id/card_city_text_edit"
+        <EditText
+            android:id="@+id/city_text_edit"
             android:layout_width="285dp"
             android:layout_height="40dp"
-            android:layout_below="@+id/card_image_edit"
+            android:layout_below="@+id/image_edit"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="@dimen/md_keylines"
             android:layout_marginTop="0dp"
@@ -62,31 +65,32 @@
             android:layout_marginRight="@dimen/md_keylines"
             android:layout_marginBottom="@dimen/md_keylines"
             android:ellipsize="end"
+            android:hint="Город"
             android:singleLine="true"
-            android:text="Город"
             android:textColor="@color/dark_grey"
             android:textSize="@dimen/article_subheading" />
 
         <TextView
-            android:id="@+id/card_text2_edit"
+            android:id="@+id/text2_edit"
             android:layout_width="78dp"
             android:layout_height="40dp"
-            android:layout_below="@+id/card_image_edit"
+            android:layout_below="@+id/image_edit"
+            android:layout_alignBottom="@+id/title_edit"
             android:layout_marginLeft="@dimen/md_keylines"
             android:layout_marginTop="41dp"
             android:layout_marginRight="@dimen/md_keylines"
-            android:layout_marginBottom="@dimen/md_keylines"
+            android:layout_marginBottom="-78dp"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="E-mail:"
             android:textColor="@color/dark_grey"
             android:textSize="@dimen/article_subheading" />
 
-        <TextView
-            android:id="@+id/card_mail_text_edit"
+        <EditText
+            android:id="@+id/mail_text_edit"
             android:layout_width="285dp"
             android:layout_height="40dp"
-            android:layout_below="@+id/card_image_edit"
+            android:layout_below="@+id/image_edit"
             android:layout_alignParentEnd="true"
             android:layout_marginLeft="@dimen/md_keylines"
             android:layout_marginTop="41dp"
@@ -94,33 +98,23 @@
             android:layout_marginRight="@dimen/md_keylines"
             android:layout_marginBottom="@dimen/md_keylines"
             android:ellipsize="end"
+            android:hint="E-mail:"
             android:singleLine="true"
-            android:text="E-mail:"
             android:textColor="@color/dark_grey"
             android:textSize="@dimen/article_subheading" />
 
         <Button
-            android:id="@+id/action_button_edit"
+            android:id="@+id/save_button_edit"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="109dp"
-            android:layout_height="59dp"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
             android:layout_below="@+id/card_text_edit"
             android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginStart="3dp"
             android:layout_marginTop="26dp"
-            android:text="@string/edit"
-            android:textColor="?attr/colorPrimary" />
-
-        <Button
-            android:id="@+id/sign_out_edit"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="109dp"
-            android:layout_height="42dp"
-            android:layout_alignTop="@+id/card_mail_text_edit"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="125dp"
-            android:layout_marginTop="42dp"
-            android:text="выйти"
+            android:layout_marginBottom="115dp"
+            android:text="Сохранить"
             android:textColor="?attr/colorPrimary" />
 
     </RelativeLayout>
