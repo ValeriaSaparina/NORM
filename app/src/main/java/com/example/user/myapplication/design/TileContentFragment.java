@@ -27,8 +27,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
-import static com.example.user.myapplication.design.CardContentFragment.i;
-
 public class TileContentFragment extends Fragment {
 
     protected static final int LENGTH = 10;
@@ -171,21 +169,21 @@ public class TileContentFragment extends Fragment {
             return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-            holder.name.setText(names[position % names.length]);
-            holder.date.setText(dates[position]);
-            holder.category.setText(categories[position]);
-                Log.d("API", "nameI: " +  names[i] + " dateI: " + dates[i] + " categoryI: " + categories[i]);
+            String dateStr = "Дата: " + dates[position];
+            String categoryStr = "Категория: " + categories[position];
+            Picasso.get().load("https://pp.userapi.com/c845524/v845524621/20d268/x3tFRfkMiCs.jpg").into(holder.picture);
+            holder.name.setText(names[position]);
+            holder.date.setText(dateStr);
+            holder.category.setText(categoryStr);
 
 
             Log.d("API", "nameTile: " + names[position % names.length]);
 
-
-            Picasso.get().load("https://pp.userapi.com/c855628/v855628072/369ef/Tan2nppGozE.jpg").into(holder.picture);
-
-            View.OnClickListener onClickListenerDel = v -> {
+            @SuppressLint("SetTextI18n") View.OnClickListener onClickListenerDel = v -> {
                 if (v.getId() == R.id.tile_delete_button) {
                     myRef.child("events").child(uID).child("event" + position).setValue(null);
                     myRef.child("events").child(Objects.requireNonNull(uID)).child("event" + position).child("name").addListenerForSingleValueEvent(
@@ -224,9 +222,6 @@ public class TileContentFragment extends Fragment {
                                     Log.d("DATABASE", "FAILED");
                                 }
                             });
-                    holder.name.setText(names[position % names.length]);
-                    holder.date.setText(dates[position]);
-                    holder.category.setText(categories[position]);
                 }
             };
             holder.btn_del.setOnClickListener(onClickListenerDel);

@@ -180,13 +180,14 @@ public class CardContentFragment extends Fragment {
             return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Log.d("API", "name2: " + names[position % names.length]);
             holder.name.setText(names[position % names.length]);
-            Picasso.get().load("https://pp.userapi.com/c855628/v855628072/369ef/Tan2nppGozE.jpg").into(holder.picture);
-            holder.date.setText(dates[position]);
-            holder.category.setText(categories[position]);
+            Picasso.get().load("https://pp.userapi.com/c845524/v845524621/20d268/x3tFRfkMiCs.jpg").into(holder.picture);
+            holder.date.setText("Дата: " + dates[position]);
+            holder.category.setText("Категория: " + categories[position]);
 
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference("events");
