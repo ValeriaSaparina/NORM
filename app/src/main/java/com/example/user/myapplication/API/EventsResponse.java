@@ -3,8 +3,8 @@ package com.example.user.myapplication.API;
 import java.util.List;
 
 public class EventsResponse {
-    int total;
-    List<EventResponse> values;
+    private int total;
+    private List<EventResponse> values;
 
     public int getTotal() {
         return total;

@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.user.myapplication.R;
-import com.example.user.myapplication.design.Des;
+import com.example.user.myapplication.design.Content;
 import com.example.user.myapplication.design.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,7 +47,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
             Log.d("API", "Objects.requireNonNull(mAuth.getCurrentUser()).getUid(): " + Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
             Users.setUID(mAuth.getCurrentUser().getUid());
             users.read();
-            Intent intent = new Intent(SignIn.this, Des.class);
+            Intent intent = new Intent(SignIn.this, Content.class);
             startActivity(intent);
         }
 
@@ -85,7 +85,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void CLICK() {
-        Intent intent = new Intent(this, Des.class);
+        Intent intent = new Intent(this, Content.class);
         startActivity(intent);
 
     }

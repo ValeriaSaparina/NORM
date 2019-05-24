@@ -10,6 +10,6 @@
     <item
         android:id="@+id/action_pa"
         android:orderInCategory="100"
-        android:title="Личный кабинет"
+        android:title="События"
         app:showAsAction="never" />
 </menu>

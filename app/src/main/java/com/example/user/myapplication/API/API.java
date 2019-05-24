@@ -9,11 +9,17 @@ import retrofit2.http.Query;
 
 public interface API {
 
+    @GET("/v1/dictionary/event_categories.json?")
+    Call<EventsCategoriesApiResponse> categoreisList();
+
     @GET("v1/events.json")
     Call<EventsResponse> eventList(@Query("limit") int limit);
 
     @GET("v1/events.json")
     Call<EventsResponse> eventList(@Query("limit") int limit, @Query("cities") List<String> cities);
+
+    @GET("v1/events.json")
+    Call<EventsResponse> eventList(@Query("limit") int limit, @Query("cities") List<String> cities, @Query("fields") String categories);
 
     @GET("v1/events.json")
     Call<EventsResponse> eventList(@Query("limit") int limit, @Query("skip") int skip);

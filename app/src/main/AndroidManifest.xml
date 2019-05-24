@@ -9,11 +9,11 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".design.Edit"></activity>
+        <activity android:name=".design.Edit" />
         <activity android:name=".pages.SignIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +25,10 @@
             android:name=".pages.Registration"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".design.Des"
+            android:name=".design.Content"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".design.PA"
             android:screenOrientation="portrait" />
     </application>
 

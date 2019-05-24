@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.user.myapplication.R;
-import com.example.user.myapplication.design.Des;
+import com.example.user.myapplication.design.Content;
 import com.example.user.myapplication.design.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -115,7 +115,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 //                users.write(mAuth.getUid());
 
 
-                Intent intent = new Intent(this, Des.class);
+                Intent intent = new Intent(this, Content.class);
                 startActivity(intent);
             }
             else Toast.makeText(this, "у тебя точно больше 6 символов в пароле?)", Toast.LENGTH_LONG);
@@ -131,7 +131,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
     }
 
     private void CLICK() {
-        Intent intent = new Intent(this, Des.class);
+        Intent intent = new Intent(this, Content.class);
         startActivity(intent);
     }
 }

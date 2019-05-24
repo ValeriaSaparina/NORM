@@ -18,11 +18,11 @@
         <item
             android:icon="@drawable/ic_home_black_24dp"
             android:tint="@color/button_grey"
-            android:title="One" />
+            android:title="Главная" />
         <item
             android:icon="@drawable/ic_favorite_black_24dp"
             android:tint="@color/button_grey"
-            android:title="Two" />
+            android:title="Избранное" />
         <item
             android:icon="@drawable/ic_bookmark_border_black_24dp"
             android:tint="@color/button_grey"

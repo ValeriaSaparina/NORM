@@ -117,7 +117,7 @@ public class Users {
 
 
 
-    public String getmailUser() {
+    String getmailUser() {
         return mailUser;
     }
 
@@ -129,7 +129,7 @@ public class Users {
         return surnameUser;
     }
 
-    public String getCityUser() {
+    String getCityUser() {
         return cityUser;
     }
 

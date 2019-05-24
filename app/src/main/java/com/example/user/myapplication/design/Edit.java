@@ -54,7 +54,7 @@ public class Edit extends AppCompatActivity implements View.OnClickListener {
             Users.setSurnameUser(str[1]);
             users.write();
 
-            Intent intent = new Intent(this, Des.class);
+            Intent intent = new Intent(this, Content.class);
             startActivity(intent);
         }
     }

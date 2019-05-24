@@ -2,7 +2,7 @@
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_view"
+    android:id="@+id/list_category"
     android:layout_width="match_parent"
     android:layout_height="325dp"
     android:layout_gravity="center"
@@ -57,7 +57,7 @@
             android:textSize="@dimen/article_subheading" />
 
         <TextView
-            android:id="@+id/tile_category_text"
+            android:id="@+id/categoty_sort"
             android:layout_width="285dp"
             android:layout_height="40dp"
             android:layout_below="@+id/card_image"

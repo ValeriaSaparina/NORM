@@ -27,7 +27,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
-public class TileContentFragment extends Fragment {
+public class MyContentFragment extends Fragment {
 
     protected static final int LENGTH = 10;
 
@@ -59,7 +59,7 @@ public class TileContentFragment extends Fragment {
             picture = itemView.findViewById(R.id.tile_image);
             name = itemView.findViewById(R.id.tile_title);
             date = itemView.findViewById(R.id.tile_date_text);
-            category = itemView.findViewById(R.id.tile_category_text);
+            category = itemView.findViewById(R.id.categoty_sort);
             btn_del = itemView.findViewById(R.id.tile_delete_button);
             btn_link = itemView.findViewById(R.id.tile_site_button);
         }
@@ -183,7 +183,7 @@ public class TileContentFragment extends Fragment {
 
             Log.d("API", "nameTile: " + names[position % names.length]);
 
-            @SuppressLint("SetTextI18n") View.OnClickListener onClickListenerDel = v -> {
+            View.OnClickListener onClickListenerDel = v -> {
                 if (v.getId() == R.id.tile_delete_button) {
                     myRef.child("events").child(uID).child("event" + position).setValue(null);
                     myRef.child("events").child(Objects.requireNonNull(uID)).child("event" + position).child("name").addListenerForSingleValueEvent(

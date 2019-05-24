@@ -46,6 +46,12 @@ public class CardContentFragment extends Fragment {
     @SuppressLint("StaticFieldLeak")
     static int i;
 
+    static String categoriesStr = "";
+
+    protected static void setCatStr(String str) {
+        categoriesStr = str;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,7 +65,7 @@ public class CardContentFragment extends Fragment {
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView picture;
         TextView name;
         TextView date;
@@ -89,15 +95,14 @@ public class CardContentFragment extends Fragment {
         private String[] dates;
         private String[] links;
 
+
+
+
         ContentAdapter() {
             Users users = new Users();
                 if (mAuth.getCurrentUser() != null) {
-                    Log.d("API", "User is not null");
-                    Log.d("API", "uID: " + Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
                     Users.setUID(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
-                    Log.d("API", "===: " + users.getNameUser());
                 } else {
-                    Log.d("API", "User is null");
                     Users.setUID(null);
                 }
 
@@ -132,8 +137,16 @@ public class CardContentFragment extends Fragment {
                     .build();
             API api = retrofit.create(API.class);
             List<String> cityList = new ArrayList<>();
+
             cityList.add("Казань");
-            Call<EventsResponse> call = api.eventList(LENGTH, cityList);
+            Call<EventsResponse> call;
+//            if (Categories.sizeMyList == 0) {
+//                categoriesStr = Categories.listToString();
+//            } else {
+//                categoriesStr = Categories.myListToString();
+//            }
+            Log.d("API", "categoryStr: " + categoriesStr);
+            call = api.eventList(LENGTH, cityList, categoriesStr);
 
             call.enqueue(new Callback<EventsResponse>() {
                 @Override
@@ -158,7 +171,7 @@ public class CardContentFragment extends Fragment {
                                 myList.get(i).getStarts_at().getChars(0, 10, dst, 0);
                                 for(char c : dst) str[0] += c;
                                 dates[i] = str[0];
-                                Log.d("API", "str: " + dates[i]);
+                                Log.d("API", "STR: " + dates[i]);
                             }
                         }
                     } catch (Exception e) {
