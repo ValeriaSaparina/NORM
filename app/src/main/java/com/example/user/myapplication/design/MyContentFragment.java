@@ -224,6 +224,7 @@ public class MyContentFragment extends Fragment {
                                     Log.d("DATABASE", "FAILED");
                                 }
                             });
+                    notifyItemRemoved(position);
                 }
             };
             holder.btn_del.setOnClickListener(onClickListenerDel);
