@@ -155,7 +155,6 @@ public class CardContentFragment extends Fragment {
                 R.layout.recycler_view, container, false);
         qqq();
         ContentAdapter adapter = new ContentAdapter();
-        adapter.clear();
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
