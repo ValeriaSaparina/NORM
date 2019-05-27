@@ -19,7 +19,7 @@ public interface API {
     Call<EventsResponse> eventList(@Query("limit") int limit, @Query("cities") List<String> cities);
 
     @GET("v1/events.json")
-    Call<EventsResponse> eventList(@Query("limit") int limit, @Query("cities") List<String> cities, @Query("fields") String categories);
+    Call<EventsResponse> eventList(@Query("limit") int limit, @Query("cities") List<String> cities, @Query("category_ids") String categories);
 
     @GET("v1/events.json")
     Call<EventsResponse> eventList(@Query("limit") int limit, @Query("skip") int skip);

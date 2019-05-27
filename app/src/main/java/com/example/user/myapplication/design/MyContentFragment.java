@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ public class MyContentFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        onSaveInstanceState(savedInstanceState);
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
         ContentAdapter adapter = new ContentAdapter();
@@ -51,7 +53,7 @@ public class MyContentFragment extends Fragment {
         TextView name;
         TextView date;
         TextView category;
-        Button btn_del;
+        ImageButton btn_del;
         Button btn_link;
 
         ViewHolder(LayoutInflater inflater, ViewGroup parent) {

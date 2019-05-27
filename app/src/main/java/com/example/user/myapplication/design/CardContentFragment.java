@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CardContentFragment extends Fragment {
 
     static final String BASE_URL = "https://api.timepad.ru/";
+    private static final int LENGTH = 50;
     static FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private static List<EventResponse> myList;
     @SuppressLint("StaticFieldLeak")
@@ -52,12 +54,109 @@ public class CardContentFragment extends Fragment {
         categoriesStr = str;
     }
 
+    private static String[] names;
+    private static String[] categories;
+    private static String[] dates;
+    private String[] links;
+
+    void qqq() {
+
+        Users users = new Users();
+        if (mAuth.getCurrentUser() != null) {
+            Users.setUID(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+        } else {
+            Users.setUID(null);
+        }
+
+        try {
+            if (users.getNameUser() == null) {
+                Users.setUID(mAuth.getCurrentUser().getUid());
+                users.read();
+            } else {
+                Users.setUID(mAuth.getCurrentUser().getUid());
+                Log.d("API", "name: " + users.getNameUser() + " " + users.getSurnameUser()
+                        + "; city: " + users.getCityUser() + "; Uid: " + Users.getUID());
+                users.write();
+            }
+        } catch (NullPointerException ex) {
+            Log.d("API", "exception: " + null);
+        }
+
+        Log.d("API", "nameWrite: " + users.getNameUser());
+
+        names = new String[LENGTH];
+        categories = new String[LENGTH];
+        dates = new String[LENGTH];
+        links = new String[LENGTH];
+
+        Log.d("API", "start");
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        API api = retrofit.create(API.class);
+        List<String> cityList = new ArrayList<>();
+
+        cityList.add("Казань");
+        Call<EventsResponse> call;
+
+        Log.d("API", "categoryStr: " + categoriesStr);
+        if (!(categoriesStr.equals(""))) {
+            call = api.eventList(LENGTH, cityList, categoriesStr);
+        } else call = api.eventList(LENGTH, cityList);
+
+        call.enqueue(new Callback<EventsResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<EventsResponse> call, @NonNull Response<EventsResponse> response) {
+                try {
+                    EventsResponse eventsResponse = response.body();
+
+                    Log.d("API", "raw response: " + response.raw().toString());
+                    if (eventsResponse == null) Log.d("API", "response is null");
+                    else {
+                        myList = eventsResponse.getValues();
+                        for (EventResponse er : myList) {
+                            Log.d("API", "id = " + er.getId() + " name = " + er.getName() + " url = " + er.getUrl() + " img = " + er.getPoster_image().getDefault_url());
+                        }
+                        Log.d("API", "event list is " + eventsResponse.getTotal() + " length");
+                        for (int i = 0; i < LENGTH; i++) {
+                            final String[] str = {""};
+                            char[] dst=new char[10];
+                            names[i] = myList.get(i).getName();
+                            categories[i] = myList.get(i).getCategories().get(0).getName();
+                            links[i] = myList.get(i).getUrl();
+                            myList.get(i).getStarts_at().getChars(0, 10, dst, 0);
+                            for(char c : dst) str[0] += c;
+                            dates[i] = str[0];
+                            Log.d("API", "STR: " + dates[i]);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<EventsResponse> call, @NonNull Throwable t) {
+                Log.d("API", "failed");
+            }
+        });
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+//        onSaveInstanceState(savedInstanceState);
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
+        qqq();
         ContentAdapter adapter = new ContentAdapter();
+        adapter.clear();
+        adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -70,121 +169,33 @@ public class CardContentFragment extends Fragment {
         TextView name;
         TextView date;
         TextView category;
-        Button btn_add;
+        ImageButton btn_add;
         Button btn_link;
 
         ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_card, parent, false));
             picture = itemView.findViewById(R.id.card_image);
             name = itemView.findViewById(R.id.card_title);
+            name.setText(names[0]);
             date = itemView.findViewById(R.id.card_date_text);
+            date.setText(dates[0]);
             category = itemView.findViewById(R.id.card_category_text);
+            category.setText(categories[0]);
             btn_add = itemView.findViewById(R.id.action_button);
             btn_link = itemView.findViewById(R.id.site_button);
 
         }
 
     }
+
+
+
     /**
      * Adapter to display recycler view.
      */
     public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
-        private static final int LENGTH = 50;
-        private String[] names;
-        private String[] categories;
-        private String[] dates;
-        private String[] links;
-
-
-
-
         ContentAdapter() {
-            Users users = new Users();
-                if (mAuth.getCurrentUser() != null) {
-                    Users.setUID(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
-                } else {
-                    Users.setUID(null);
-                }
 
-            try {
-                if (users.getNameUser() == null) {
-                    Users.setUID(mAuth.getCurrentUser().getUid());
-                    users.read();
-                } else {
-                    Users.setUID(mAuth.getCurrentUser().getUid());
-                    Log.d("API", "name: " + users.getNameUser() + " " + users.getSurnameUser()
-                            + "; city: " + users.getCityUser() + "; Uid: " + Users.getUID());
-                    users.write();
-                }
-            } catch (NullPointerException ex) {
-                Log.d("API", "exception: " + null);
-            }
-
-            Log.d("API", "nameWrite: " + users.getNameUser());
-
-            names = new String[LENGTH];
-            categories = new String[LENGTH];
-            dates = new String[LENGTH];
-            links = new String[LENGTH];
-
-            Log.d("API", "start");
-            Gson gson = new GsonBuilder()
-                    .setLenient()
-                    .create();
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build();
-            API api = retrofit.create(API.class);
-            List<String> cityList = new ArrayList<>();
-
-            cityList.add("Казань");
-            Call<EventsResponse> call;
-//            if (Categories.sizeMyList == 0) {
-//                categoriesStr = Categories.listToString();
-//            } else {
-//                categoriesStr = Categories.myListToString();
-//            }
-            Log.d("API", "categoryStr: " + categoriesStr);
-            call = api.eventList(LENGTH, cityList, categoriesStr);
-
-            call.enqueue(new Callback<EventsResponse>() {
-                @Override
-                public void onResponse(@NonNull Call<EventsResponse> call, @NonNull Response<EventsResponse> response) {
-                    try {
-                        EventsResponse eventsResponse = response.body();
-
-                        Log.d("API", "raw response: " + response.raw().toString());
-                        if (eventsResponse == null) Log.d("API", "response is null");
-                        else {
-                            myList = eventsResponse.getValues();
-                            for (EventResponse er : myList) {
-                                Log.d("API", "id = " + er.getId() + " name = " + er.getName() + " url = " + er.getUrl() + " img = " + er.getPoster_image().getDefault_url());
-                            }
-                            Log.d("API", "event list is " + eventsResponse.getTotal() + " length");
-                            for (int i = 0; i < LENGTH; i++) {
-                                final String[] str = {""};
-                                char[] dst=new char[10];
-                                names[i] = myList.get(i).getName();
-                                categories[i] = myList.get(i).getCategories().get(0).getName();
-                                links[i] = myList.get(i).getUrl();
-                                myList.get(i).getStarts_at().getChars(0, 10, dst, 0);
-                                for(char c : dst) str[0] += c;
-                                dates[i] = str[0];
-                                Log.d("API", "STR: " + dates[i]);
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<EventsResponse> call, @NonNull Throwable t) {
-                    Log.d("API", "failed");
-                }
-            });
         }
 
         @NonNull
@@ -202,13 +213,14 @@ public class CardContentFragment extends Fragment {
             holder.date.setText("Дата: " + dates[position]);
             holder.category.setText("Категория: " + categories[position]);
 
+
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference("events");
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
             View.OnClickListener onClickListenerAdd = v -> {
                 if (v.getId() == R.id.action_button) {
-                    if (i == LENGTH - 1) {
+                    if (i == 9) {
                         Toast.makeText(getContext(), "Список выбранных событий полон", Toast.LENGTH_LONG).show();
                         i = 0;
                     } else {
@@ -216,6 +228,7 @@ public class CardContentFragment extends Fragment {
                         myRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("date").setValue(dates[position]);
                         myRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("category").setValue(categories[position]);
                         myRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("link").setValue(links[position]);
+                        holder.btn_add.setImageResource(R.drawable.ic_favorite);
                         i++;
                     }
                 }

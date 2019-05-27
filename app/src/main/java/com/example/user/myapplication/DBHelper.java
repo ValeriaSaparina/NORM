@@ -14,14 +14,14 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("API", "--- onCreate database ---");
-            db.execSQL("create table mytable ("
+            db.execSQL("create table myTable ("
                     + "id integer primary key autoincrement,"
                     + "name text,"
-                    + "email text" + ");");
+                    + "idCat text" + ");");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        Log.d("API", "^_^");
     }
 }

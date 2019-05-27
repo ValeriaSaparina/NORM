@@ -15,26 +15,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.user.myapplication.API.API;
-import com.example.user.myapplication.API.EventCategoryIncludeApiResponse;
-import com.example.user.myapplication.API.EventsCategoriesApiResponse;
 import com.example.user.myapplication.DBHelper;
 import com.example.user.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.List;
 import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Sorts extends Fragment {
 
@@ -44,6 +35,7 @@ public class Sorts extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        onSaveInstanceState(savedInstanceState);
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
         ContentAdapter adapter = new ContentAdapter();
@@ -66,7 +58,6 @@ public class Sorts extends Fragment {
             text = itemView.findViewById(R.id.category_sort);
             btn = itemView.findViewById(R.id.add_category);
 
-
         }
 
 
@@ -79,8 +70,10 @@ public class Sorts extends Fragment {
         private DatabaseReference myRef = database.getReference();
         private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        List<EventCategoryIncludeApiResponse> categoriesList;
-        //Categories cat = new Categories();
+
+        List<String> myCategoriesList;
+        List<String> myIdList;
+        Categories cat = new Categories();
 
         DBHelper dbHelper = new DBHelper(Objects.requireNonNull(getActivity()).getApplicationContext());
         ContentValues cv = new ContentValues();
@@ -91,49 +84,10 @@ public class Sorts extends Fragment {
 
         ContentAdapter() {
             uID = mAuth.getUid();
-
-            Gson gson = new GsonBuilder()
-                    .setLenient()
-                    .create();
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://api.timepad.ru/")
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build();
-            API api = retrofit.create(API.class);
-            Call<EventsCategoriesApiResponse> call;
-            call = api.categoreisList();
-
-            call.enqueue(new Callback<EventsCategoriesApiResponse>() {
-                @Override
-                public void onResponse(@NonNull Call<EventsCategoriesApiResponse> call, @NonNull Response<EventsCategoriesApiResponse> response) {
-                    try {
-                        EventsCategoriesApiResponse eventsCategoriesApiResponse = response.body();
-
-                        Log.d("API", "raw response: " + response.raw().toString());
-                        if (eventsCategoriesApiResponse == null) Log.d("API", "response is null");
-                        else {categoriesList = eventsCategoriesApiResponse.getValue();
-                            Log.d("API", "success");
-
-                            Log.d("API", "categoryID: " + categoriesList.get(0).getId());
-                            Log.d("API", "categoryList size: " + eventsCategoriesApiResponse.getValue().size());
-                            for (EventCategoryIncludeApiResponse er : categoriesList) {
-                                Log.d("API", "Categories id = " + er.getId() + " name = " + er.getName());
-//
-                            }
-                            Log.d("API", "Categories: " + categoriesList);
-                        }
-                        Log.d("API", "AAAAAAAAAAAAAAAAAAAAAAAAAAaa");
-                    } catch (Exception e) {
-                        e.printStackTrace();}
-
-
-                }
-
-                @Override
-                public void onFailure (@NonNull Call < EventsCategoriesApiResponse > call, @NonNull Throwable t){
-                    Log.d("API", "failed");
-                }
-            });
+            myCategoriesList = cat.getMyCategoriesList();
+            myIdList = cat.getMyIdList();
+            for (String str : myCategoriesList) Log.d("API", "myCatList: " + str);
+            for (String str : myIdList) Log.d("API", "myIdList: " + str);
 
            // categoriesList = cat.getCategoriesList();
         }
@@ -147,53 +101,59 @@ public class Sorts extends Fragment {
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-//            holder.text.setText(categoriesList.get(position));
+            holder.text.setText(myCategoriesList.get(position));
 
-            holder.text.setText(categoriesList.get(position).getName());
+            AtomicBoolean flag = new AtomicBoolean(true);
+            final Cursor[] c = new Cursor[1];
 
             View.OnClickListener onClickListener = v -> {
-                if (v.getId() == R.id.add_category) {
+                if (flag.get()) {
+                    Log.d("API", "--- Insert in mytable: ---");
                     cv.put("name", holder.text.getText().toString());
-                    long rowId = db.insert("myTable", null, cv);
-                    Cursor c = db.query("myTable", null, null, null, null, null, null);
-                    if (c.moveToFirst()) {
+                    cv.put("idCat", myIdList.get(position));
+                    long rowID = db.insert("mytable", null, cv);
+                    Log.d("API", "row inserted, ID = " + rowID);
+                    Log.d("API", "--- Rows in mytable: ---");
+                    c[0] = db.query("myTable", null, null, null, null, null, null);
+
+                    // ставим позицию курсора на первую строку выборки
+                    // если в выборке нет строк, вернется false
+                    if (c[0].moveToFirst()) {
 
                         // определяем номера столбцов по имени в выборке
-                        int idColIndex = c.getColumnIndex("id");
-                        int nameColIndex = c.getColumnIndex("name");
+                        int idColIndex = c[0].getColumnIndex("id");
+                        int nameColIndex = c[0].getColumnIndex("name");
+                        int idCatColIndex = c[0].getColumnIndex("idCat");
 
                         do {
                             // получаем значения по номерам столбцов и пишем все в лог
                             Log.d("API",
-                                    "ID = " + c.getInt(idColIndex) +
-                                            ", name = " + c.getString(nameColIndex));
-//                            STR = "";
-                            STR += c.getString(nameColIndex) + ", ";
+                                    "ID = " + c[0].getInt(idColIndex) +
+                                            ", name = " + c[0].getString(nameColIndex) +
+                                            ", idCAt = " + c[0].getString(idCatColIndex));
+                            STR += c[0].getString(idCatColIndex) + ", ";
                             Log.d("API", "STR = " + STR);
-                            // переход на следующую строку
-                            // а если следующей нет (текущая - последняя), то false - выходим из цикла
-                        } while (c.moveToNext());
+                        } while (c[0].moveToNext());
                         STR = STR.substring(0, STR.length() - 2);
-                        CardContentFragment card = new CardContentFragment();
                         CardContentFragment.setCatStr(STR);
                         STR = "";
                         Log.d("API", "STR = " + STR);
                     } else
                         Log.d("API", "0 rows");
-                    c.close();
-//                    Categories.setMyList(String.valueOf(holder.text.getText()));
+                    c[0].close();
                     holder.btn.setText("Удалить");
-//                    Log.d("API", "myList: " + Categories.getMyList());
-                    //Categories.setSizeMyList(Categories.getMyList().size());
-//                    Log.d("API", "sizeList: " + Categories.getMyList().size());
-//                    Log.d("API", "sizeList: " + Categories.myList.size());
-                    //Categories.sizeMyList = Categories.myList.size();
-                    //Log.d("API", "sizeList: " + Categories.sizeMyList);
+                    flag.set(false);
+                } else {
+                    db.execSQL("delete " + "from myTable");
+                    if (!c[0].moveToNext()) Toast.makeText(getContext(), "delete", Toast.LENGTH_LONG).show();
+                    holder.btn.setText("Добавить");
+                    CardContentFragment.setCatStr("");
+
+                    flag.set(true);
                 }
-            };
-
+                c[0].close();
+           };
             holder.btn.setOnClickListener(onClickListener);
-
         }
 
         @Override
@@ -202,6 +162,16 @@ public class Sorts extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        DBHelper dbHelper = new DBHelper(getContext());
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        int clearCount = db.delete("myTable", null, null);
+        Log.d("API", "deleted rows count = " + clearCount);
+    }
 
 }
 

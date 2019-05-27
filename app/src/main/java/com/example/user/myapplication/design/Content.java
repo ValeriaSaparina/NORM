@@ -1,20 +1,18 @@
 package com.example.user.myapplication.design;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.user.myapplication.DBHelper;
 import com.example.user.myapplication.R;
 
 import java.util.ArrayList;
@@ -37,23 +35,29 @@ public class Content extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
     }
     // Add Fragments to Tabs
+    @SuppressLint("CommitTransaction")
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new CardContentFragment(), "События");
-        adapter.addFragment(new MyContentFragment(), "Мое");
         adapter.addFragment(new Sorts(), "Фильтры");
+        adapter.addFragment(new MyContentFragment(), "Мое");
+        adapter.notifyDataSetChanged();
         viewPager.setAdapter(adapter);
     }
 
-    static class Adapter extends FragmentPagerAdapter {
+
+
+    static class Adapter extends FragmentStatePagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
+        @SuppressLint("CommitTransaction")
         Adapter(FragmentManager manager) {
             super(manager);
+//            manager.beginTransaction().replace(R.id.viewpager, new Fragment()).commit();
         }
 
-        @Override
+            @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);
         }
@@ -98,18 +102,6 @@ public class Content extends AppCompatActivity {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onStop() {
-
-        super.onStop();
-
-        DBHelper dbHelper = new DBHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        int clearCount = db.delete("myTable", null, null);
-        Log.d("API", "deleted rows count = " + clearCount);
     }
 }
 
