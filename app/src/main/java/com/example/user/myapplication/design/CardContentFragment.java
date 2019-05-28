@@ -33,7 +33,7 @@ import java.util.Objects;
 public class CardContentFragment extends Fragment {
 
     static final String BASE_URL = "https://api.timepad.ru/";
-    private static final int LENGTH = 50;
+    static final int LENGTH = 50;
     static FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private static List<EventResponse> myList = new ArrayList<>();
     @SuppressLint("StaticFieldLeak")
@@ -49,6 +49,7 @@ public class CardContentFragment extends Fragment {
     private static String[] categories;
     private static String[] dates;
     private static String[] links;
+    private Categories cat;
     private Events eventsCat;
 
 
@@ -146,13 +147,14 @@ public class CardContentFragment extends Fragment {
                     notifyItemInserted(0);
                     Log.d("API", "namesCard: " + names[0]);
                 } else {
-                    eventsCat = new Events(LENGTH, categoriesStr);
-                    names = eventsCat.getNames();
-                    dates = eventsCat.getDates();
-                    categories = eventsCat.getCategories();
-                    links = eventsCat.getLinks();
+                    //cat = SignIn.cat;
+                    //eventsCat = Sorts.;
+                    names = Sorts.names;
+                    dates = Sorts.dates;
+                    categories = Sorts.categories;
+                    links = Sorts.links;
+//                    getFragmentManager().getFragments().clear();
                     notifyDataSetChanged();
-                    notifyItemInserted(0);
                     Log.d("API", "namesCard: " + names[0]);
                 }
 

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.user.myapplication.DBHelper;
 import com.example.user.myapplication.R;
+import com.example.user.myapplication.pages.SignIn;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,6 +32,12 @@ public class Sorts extends Fragment {
 
 
     private static final int LENGTH = 22;
+    Events events;
+
+    static String[] dates;
+    static String[] categories;
+    static String[] names;
+    static String[] links;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -81,7 +88,6 @@ public class Sorts extends Fragment {
 
         List<String> myCategoriesList;
         List<Integer> myIdList;
-        Categories cat = new Categories();
 
         DBHelper dbHelper = new DBHelper(Objects.requireNonNull(getActivity()).getApplicationContext());
         ContentValues cv = new ContentValues();
@@ -93,8 +99,9 @@ public class Sorts extends Fragment {
 
         ContentAdapter() {
             uID = mAuth.getUid();
-            myCategoriesList = cat.getCategoryName();
-            myIdList = cat.getCategoryId();
+
+            myCategoriesList = SignIn.cat.getCategoryName();
+            myIdList = SignIn.cat.getCategoryId();
             for (String str : myCategoriesList) Log.d("API", "myCatList: " + str);
             for (int i : myIdList) Log.d("API", "myIdList: " + i);
 
@@ -142,6 +149,7 @@ public class Sorts extends Fragment {
                         STR = STR.substring(0, STR.length() - 2);
                         CardContentFragment.setCatStr(STR);
                         STR2 = STR;
+                        events = new Events(CardContentFragment.LENGTH, STR);
                         Log.d("API", "STR2: " + STR2);
                         STR = "";
                         Log.d("API", "STR = " + STR);
@@ -163,18 +171,21 @@ public class Sorts extends Fragment {
                 c[0].close();
                 Log.d("API", "STR2: " + STR2);
                 Events events = new Events(50, STR2);
-                String[] names = events.getNames();
-                String[] dates = events.getDates();
-                String[] categories = events.getCategories();
-                while (names[position] != null) {
-
-                    holder.cardName.setText("name " + names[position]);
-
-                    holder.cardDate.setText("date " + dates[position]);
-
-                    holder.cardCat.setText("cat " + categories[position]);
-                    Log.d("API", "SUCCESS");
-                }
+                names = events.getNames();
+                dates = events.getDates();
+                categories = events.getCategories();
+                links = events.getLinks();
+                CardContentFragment card = new CardContentFragment();
+                card.getFragmentManager().getFragments().clear();
+//                while (names[position] != null) {
+//
+//                    holder.cardName.setText("name " + names[position]);
+//
+//                    holder.cardDate.setText("date " + dates[position]);
+//
+//                    holder.cardCat.setText("cat " + categories[position]);
+//                    Log.d("API", "SUCCESS");
+//                }
             };
             holder.btn.setOnClickListener(onClickListener);
         }

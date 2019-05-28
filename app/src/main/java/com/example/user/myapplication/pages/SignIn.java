@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.user.myapplication.R;
+import com.example.user.myapplication.design.Categories;
 import com.example.user.myapplication.design.Content;
 import com.example.user.myapplication.design.Events;
 import com.example.user.myapplication.design.Users;
@@ -20,11 +21,15 @@ import java.util.Objects;
 
 public class SignIn extends AppCompatActivity implements View.OnClickListener {
 
+
     Button btnVhod2;
     EditText etEmail;
     EditText etPassword;
 
     public static Events events;
+
+    public static Categories cat;
+
     private FirebaseAuth mAuth;
 
     Users users;
@@ -43,6 +48,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         mAuth = FirebaseAuth.getInstance();
         users = new Users();
 
+        cat = new Categories();
         events = new Events(50, "");
 
         FirebaseUser user = mAuth.getCurrentUser();
