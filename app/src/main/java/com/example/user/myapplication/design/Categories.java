@@ -1,9 +1,23 @@
 package com.example.user.myapplication.design;
 
-import com.example.user.myapplication.API.EventCategoryIncludeApiResponse;
+import android.support.annotation.NonNull;
+import android.util.Log;
 
-import java.util.ArrayList;
+import com.example.user.myapplication.API.API;
+import com.example.user.myapplication.API.EventCategoryIncludeApiResponse;
+import com.example.user.myapplication.API.EventsCategoriesApiResponse;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.user.myapplication.design.CardContentFragment.BASE_URL;
 
 public class Categories {
     private List<EventCategoryIncludeApiResponse> categoriesList;
@@ -43,30 +57,34 @@ public class Categories {
 
 
     public Categories() {
-//        Gson gson = new GsonBuilder()
-//                .setLenient()
-//                .create();
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("https://api.timepad.ru/")
-//                .addConverterFactory(GsonConverterFactory.create(gson))
-//                .build();
-//        API api = retrofit.create(API.class);
-//        Call<EventsCategoriesApiResponse> call;
-//        call = api.categoreisList();
-//
-//        call.enqueue(new Callback<EventsCategoriesApiResponse>() {
-//            @Override
-//            public void onResponse(@NonNull Call<EventsCategoriesApiResponse> call, @NonNull Response<EventsCategoriesApiResponse> response) {
-//                try {
-//                    EventsCategoriesApiResponse eventsCategoriesApiResponse = response.body();
-//
-//                    Log.d("API", "raw response: " + response.raw().toString());
-//                    if (eventsCategoriesApiResponse == null) Log.d("API", "response is null");
-//                    else {categoriesList = eventsCategoriesApiResponse.getValue();
-//                        Log.d("API", "success");
-//
-//                        Log.d("API", "categoryID: " + categoriesList.get(0).getId());
-//                        Log.d("API", "categoryList size: " + eventsCategoriesApiResponse.getValue().size());
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        API api = retrofit.create(API.class);
+        Call<EventsCategoriesApiResponse> call;
+        call = api.categoriesList();
+
+        call.enqueue(new Callback<EventsCategoriesApiResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<EventsCategoriesApiResponse> call, @NonNull Response<EventsCategoriesApiResponse> response) {
+                try {
+                    EventsCategoriesApiResponse eventsCategoriesApiResponse = response.body();
+
+                    Log.d("API", "raw response: " + response.raw().toString());
+                    if (eventsCategoriesApiResponse == null) Log.d("API", "response is null");
+                    else {categoriesList = eventsCategoriesApiResponse.getValue();
+                        Log.d("API", "success");
+                        Log.d("API", "categoryID: " + categoriesList.get(0).getId());
+                        Log.d("API", "categoryList size: " + eventsCategoriesApiResponse.getValue().size());
+                        for (int i = 0; i < categoriesList.size(); i++) {
+                            categoryName.add(categoriesList.get(i).getName());
+                            categoryId.add(categoriesList.get(i).getId());
+                            Log.d("API", "catNAme: " + categoryName.get(i));
+                        }
 //                        for (EventCategoryIncludeApiResponse er : categoriesList) {
 //                            Log.d("API", "Categories id = " + er.getId() + " name = " + er.getName());
 //                            for (int i = 0; i < LENGTH; i++) {
@@ -82,20 +100,20 @@ public class Categories {
 //                            }
 //                        }
 //                        Log.d("API", "Categories: " + categoriesList);
-//                    }
-//                    } catch (Exception e) {
-//                    e.printStackTrace();}
-//
-//
-//                }
-//
-//                @Override
-//                public void onFailure (@NonNull Call < EventsCategoriesApiResponse > call, @NonNull Throwable t){
-//                    Log.d("API", "failed");
-//                }
-//            });
+                    }
+                    } catch (Exception e) {
+                    e.printStackTrace();}
 
 
+                }
+
+                @Override
+                public void onFailure (@NonNull Call <EventsCategoriesApiResponse> call, @NonNull Throwable t){
+                    Log.d("API", "failed");
+                }
+            });
+
+/*
         myCategoriesList = new ArrayList<>();
         myIdList = new ArrayList<>();
 
@@ -146,6 +164,7 @@ public class Categories {
         myIdList.add("2335");
         myIdList.add("462");
 
+*/
     }
 
 }
