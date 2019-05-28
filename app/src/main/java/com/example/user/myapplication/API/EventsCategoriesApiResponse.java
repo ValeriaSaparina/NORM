@@ -3,13 +3,13 @@ package com.example.user.myapplication.API;
 import java.util.List;
 
 public class EventsCategoriesApiResponse {
-    private List<EventCategoryIncludeApiResponse> value;
+    private List<EventCategoryIncludeApiResponse> values;
 
-    public List<EventCategoryIncludeApiResponse> getValue() {
-        return value;
+    public List<EventCategoryIncludeApiResponse> getValues() {
+        return values;
     }
 
-    public void setValue(List<EventCategoryIncludeApiResponse> value) {
-        this.value = value;
+    public void setValues(List<EventCategoryIncludeApiResponse> values) {
+        this.values = values;
     }
 }

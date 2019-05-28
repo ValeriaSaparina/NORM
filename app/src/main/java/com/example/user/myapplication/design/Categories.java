@@ -9,6 +9,7 @@ import com.example.user.myapplication.API.EventsCategoriesApiResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -21,20 +22,9 @@ import static com.example.user.myapplication.design.CardContentFragment.BASE_URL
 
 public class Categories {
     private List<EventCategoryIncludeApiResponse> categoriesList;
-    private List<String> myCategoriesList;
-    private List<String> myIdList;
 
     private List<Integer> categoryId;
     private List<String> categoryName;
-
-
-    public List<String> getMyCategoriesList() {
-        return myCategoriesList;
-    }
-
-    public List<String> getMyIdList() {
-        return myIdList;
-    }
 
 
     public List<Integer> getCategoryId() {
@@ -57,6 +47,9 @@ public class Categories {
 
 
     public Categories() {
+        categoryId = new ArrayList<>();
+        categoryName = new ArrayList<>();
+
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -76,15 +69,17 @@ public class Categories {
 
                     Log.d("API", "raw response: " + response.raw().toString());
                     if (eventsCategoriesApiResponse == null) Log.d("API", "response is null");
-                    else {categoriesList = eventsCategoriesApiResponse.getValue();
+                    else {categoriesList = eventsCategoriesApiResponse.getValues();
                         Log.d("API", "success");
                         Log.d("API", "categoryID: " + categoriesList.get(0).getId());
-                        Log.d("API", "categoryList size: " + eventsCategoriesApiResponse.getValue().size());
+                        Log.d("API", "categoryList size: " + eventsCategoriesApiResponse.getValues().size());
+
                         for (int i = 0; i < categoriesList.size(); i++) {
                             categoryName.add(categoriesList.get(i).getName());
                             categoryId.add(categoriesList.get(i).getId());
                             Log.d("API", "catNAme: " + categoryName.get(i));
                         }
+
 //                        for (EventCategoryIncludeApiResponse er : categoriesList) {
 //                            Log.d("API", "Categories id = " + er.getId() + " name = " + er.getName());
 //                            for (int i = 0; i < LENGTH; i++) {

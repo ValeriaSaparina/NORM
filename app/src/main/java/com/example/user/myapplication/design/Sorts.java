@@ -175,8 +175,8 @@ public class Sorts extends Fragment {
                 dates = events.getDates();
                 categories = events.getCategories();
                 links = events.getLinks();
-                CardContentFragment card = new CardContentFragment();
-                card.getFragmentManager().getFragments().clear();
+//                CardContentFragment card = new CardContentFragment();
+//                card.getFragmentManager().getFragments().clear();
 //                while (names[position] != null) {
 //
 //                    holder.cardName.setText("name " + names[position]);
@@ -188,6 +188,7 @@ public class Sorts extends Fragment {
 //                }
             };
             holder.btn.setOnClickListener(onClickListener);
+
         }
 
         @Override
