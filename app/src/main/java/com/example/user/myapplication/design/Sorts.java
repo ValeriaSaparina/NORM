@@ -80,7 +80,7 @@ public class Sorts extends Fragment {
 
 
         List<String> myCategoriesList;
-        List<String> myIdList;
+        List<Integer> myIdList;
         Categories cat = new Categories();
 
         DBHelper dbHelper = new DBHelper(Objects.requireNonNull(getActivity()).getApplicationContext());
@@ -93,10 +93,10 @@ public class Sorts extends Fragment {
 
         ContentAdapter() {
             uID = mAuth.getUid();
-            myCategoriesList = cat.getMyCategoriesList();
-            myIdList = cat.getMyIdList();
+            myCategoriesList = cat.getCategoryName();
+            myIdList = cat.getCategoryId();
             for (String str : myCategoriesList) Log.d("API", "myCatList: " + str);
-            for (String str : myIdList) Log.d("API", "myIdList: " + str);
+            for (int i : myIdList) Log.d("API", "myIdList: " + i);
 
            // categoriesList = cat.getCategoriesList();
         }
