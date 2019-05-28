@@ -48,7 +48,6 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         mAuth = FirebaseAuth.getInstance();
         users = new Users();
 
-        cat = new Categories();
         events = new Events(50, "");
 
         FirebaseUser user = mAuth.getCurrentUser();
@@ -73,11 +72,11 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
                         Users.setUID(mAuth.getCurrentUser().getUid());
                         users.read();
 
-                        CLICK();
+                        click();
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w("authentication", "signInWithEmail:failure", task.getException());
-                        ERROR();
+                        error();
                     }
                 });
     }
@@ -94,13 +93,21 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    private void CLICK() {
+    private void click() {
         Intent intent = new Intent(this, Content.class);
         startActivity(intent);
 
     }
 
-    private void ERROR() {
+    private void error() {
         Toast.makeText(SignIn.this, "Проверьте правильность введенных данных", Toast.LENGTH_SHORT).show();
+    }
+
+    public static void initCategories() {
+        cat = new Categories();
+    }
+
+    public static void initEvents() {
+        events = new Events(50, "");
     }
 }

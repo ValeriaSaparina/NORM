@@ -1,6 +1,5 @@
 package com.example.user.myapplication.design;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.user.myapplication.API.API;
@@ -9,12 +8,11 @@ import com.example.user.myapplication.API.EventsCategoriesApiResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -60,8 +58,18 @@ public class Categories {
         API api = retrofit.create(API.class);
         Call<EventsCategoriesApiResponse> call;
         call = api.categoriesList();
+        try {
+            categoriesList = call.execute().body().getValues();
+            for (int i = 0; i < categoriesList.size(); i++) {
+                categoryName.add(categoriesList.get(i).getName());
+                categoryId.add(categoriesList.get(i).getId());
+                Log.d("API", "catNAme: " + categoryName.get(i));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        call.enqueue(new Callback<EventsCategoriesApiResponse>() {
+        /* call.enqueue(new Callback<EventsCategoriesApiResponse>() {
             @Override
             public void onResponse(@NonNull Call<EventsCategoriesApiResponse> call, @NonNull Response<EventsCategoriesApiResponse> response) {
                 try {
@@ -106,7 +114,7 @@ public class Categories {
                 public void onFailure (@NonNull Call <EventsCategoriesApiResponse> call, @NonNull Throwable t){
                     Log.d("API", "failed");
                 }
-            });
+            }); */
 
 /*
         myCategoriesList = new ArrayList<>();
