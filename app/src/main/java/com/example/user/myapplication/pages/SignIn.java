@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.design.Content;
+import com.example.user.myapplication.design.Events;
 import com.example.user.myapplication.design.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,6 +24,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
     EditText etEmail;
     EditText etPassword;
 
+    public static Events events;
     private FirebaseAuth mAuth;
 
     Users users;
@@ -40,6 +42,8 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
 
         mAuth = FirebaseAuth.getInstance();
         users = new Users();
+
+        events = new Events(50, "");
 
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {

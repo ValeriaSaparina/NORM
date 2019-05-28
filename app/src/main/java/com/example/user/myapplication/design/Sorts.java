@@ -53,10 +53,18 @@ public class Sorts extends Fragment {
         TextView text;
         Button btn;
 
+        TextView cardName;
+        TextView cardDate;
+        TextView cardCat;
+
         ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.sorts, parent, false));
             text = itemView.findViewById(R.id.category_sort);
             btn = itemView.findViewById(R.id.add_category);
+
+            cardName = itemView.findViewById(R.id.card_title);
+            cardDate = itemView.findViewById(R.id.card_date_text);
+            cardCat = itemView.findViewById(R.id.card_category_text);
 
         }
 
@@ -81,6 +89,7 @@ public class Sorts extends Fragment {
 
         String uID;
         String STR = "";
+        String STR2 = "";
 
         ContentAdapter() {
             uID = mAuth.getUid();
@@ -97,6 +106,7 @@ public class Sorts extends Fragment {
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
         }
+
 
         @SuppressLint("SetTextI18n")
         @Override
@@ -115,18 +125,13 @@ public class Sorts extends Fragment {
                     Log.d("API", "row inserted, ID = " + rowID);
                     Log.d("API", "--- Rows in mytable: ---");
                     c[0] = db.query("myTable", null, null, null, null, null, null);
-
-                    // ставим позицию курсора на первую строку выборки
-                    // если в выборке нет строк, вернется false
                     if (c[0].moveToFirst()) {
 
-                        // определяем номера столбцов по имени в выборке
                         int idColIndex = c[0].getColumnIndex("id");
                         int nameColIndex = c[0].getColumnIndex("name");
                         int idCatColIndex = c[0].getColumnIndex("idCat");
 
                         do {
-                            // получаем значения по номерам столбцов и пишем все в лог
                             Log.d("API",
                                     "ID = " + c[0].getInt(idColIndex) +
                                             ", name = " + c[0].getString(nameColIndex) +
@@ -136,6 +141,8 @@ public class Sorts extends Fragment {
                         } while (c[0].moveToNext());
                         STR = STR.substring(0, STR.length() - 2);
                         CardContentFragment.setCatStr(STR);
+                        STR2 = STR;
+                        Log.d("API", "STR2: " + STR2);
                         STR = "";
                         Log.d("API", "STR = " + STR);
                     } else
@@ -143,22 +150,38 @@ public class Sorts extends Fragment {
                     c[0].close();
                     holder.btn.setText("Удалить");
                     flag.set(false);
+                    c[0].close();
                 } else {
                     db.execSQL("delete " + "from myTable");
-                    if (!c[0].moveToNext()) Toast.makeText(getContext(), "delete", Toast.LENGTH_LONG).show();
+                    if (!c[0].moveToNext())
+                        Toast.makeText(getContext(), "delete", Toast.LENGTH_LONG).show();
                     holder.btn.setText("Добавить");
                     CardContentFragment.setCatStr("");
 
                     flag.set(true);
                 }
                 c[0].close();
-           };
+                Log.d("API", "STR2: " + STR2);
+                Events events = new Events(50, STR2);
+                String[] names = events.getNames();
+                String[] dates = events.getDates();
+                String[] categories = events.getCategories();
+                while (names[position] != null) {
+
+                    holder.cardName.setText("name " + names[position]);
+
+                    holder.cardDate.setText("date " + dates[position]);
+
+                    holder.cardCat.setText("cat " + categories[position]);
+                    Log.d("API", "SUCCESS");
+                }
+            };
             holder.btn.setOnClickListener(onClickListener);
         }
 
         @Override
         public int getItemCount() {
-            return Math.toIntExact(LENGTH);
+            return LENGTH;
         }
     }
 

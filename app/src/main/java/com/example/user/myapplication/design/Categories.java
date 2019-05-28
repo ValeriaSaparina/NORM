@@ -83,8 +83,7 @@ public class Categories {
 //                        }
 //                        Log.d("API", "Categories: " + categoriesList);
 //                    }
-//                Log.d("API", "AAAAAAAAAAAAAAAAAAAAAAAAAAaa");
-//                } catch (Exception e) {
+//                    } catch (Exception e) {
 //                    e.printStackTrace();}
 //
 //

@@ -162,8 +162,9 @@ public class MyContentFragment extends Fragment {
             } catch (NullPointerException ex) {
                 Log.d("API", "exception: " + ex.getMessage());
             }
-
         }
+
+
 
         @NonNull
         @Override
