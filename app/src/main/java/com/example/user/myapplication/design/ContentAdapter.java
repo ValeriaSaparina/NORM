@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ContentAdapter extends RecyclerView.Adapter<Sorts.ViewHolder> {
+public class ContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = database.getReference();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -30,7 +30,7 @@ public class ContentAdapter extends RecyclerView.Adapter<Sorts.ViewHolder> {
     List<String> myCategoriesList;
     List<Integer> myIdList;
 
-    public static final Sorts.ContentAdapter self = this;
+    public static final ContentAdapter self;
 
     DBHelper dbHelper = new DBHelper(Objects.requireNonNull(getActivity()).getApplicationContext());
     ContentValues cv = new ContentValues();
@@ -48,6 +48,7 @@ public class ContentAdapter extends RecyclerView.Adapter<Sorts.ViewHolder> {
 
 
     ContentAdapter() {
+        self = this;
         uID = mAuth.getUid();
         myCategoriesList = new ArrayList<>();
         myCategoriesList.add("");
@@ -60,18 +61,19 @@ public class ContentAdapter extends RecyclerView.Adapter<Sorts.ViewHolder> {
 
     @NonNull
     @Override
-    public Sorts.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new Sorts.ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
     }
 
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull Sorts.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.text.setText(myCategoriesList.get(position));
 
         AtomicBoolean flag = new AtomicBoolean(true);
         final Cursor[] c = new Cursor[1];
+        final Events[] events = new Events[1];
 
         View.OnClickListener onClickListener = v -> {
             if (flag.get()) {
@@ -99,7 +101,7 @@ public class ContentAdapter extends RecyclerView.Adapter<Sorts.ViewHolder> {
                     STR = STR.substring(0, STR.length() - 2);
                     CardContentFragment.setCatStr(STR);
                     STR2 = STR;
-                    events = new Events(CardContentFragment.LENGTH, STR);
+                    events[0] = new Events(CardContentFragment.LENGTH, STR);
                     Log.d("API", "STR2: " + STR2);
                     STR = "";
                     Log.d("API", "STR = " + STR);
