@@ -271,21 +271,6 @@ public class Sorts extends Fragment {
                             Log.d("API", "catNAme: " + categoryName.get(i));
                         }
 
-//                        for (EventCategoryIncludeApiResponse er : categoriesList) {
-//                            Log.d("API", "Categories id = " + er.getId() + " name = " + er.getName());
-//                            for (int i = 0; i < LENGTH; i++) {
-//                                final String[] str = {""};
-//                                char[] dst = new char[10];
-//                                names[i] = myList.get(i).getName();
-//                                categories[i] = myList.get(i).getCategories().get(0).getName();
-//                                links[i] = myList.get(i).getUrl();
-//                                myList.get(i).getStarts_at().getChars(0, 10, dst, 0);
-//                                for (char c : dst) str[0] += c;
-//                                dates[i] = str[0];
-//                                Log.d("API", "STR: " + dates[i]);
-//                            }
-//                        }
-//                        Log.d("API", "Categories: " + categoriesList);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();}
