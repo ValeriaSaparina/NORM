@@ -70,7 +70,7 @@ public class Sorts extends Fragment {
 
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView text;
         Button btn;
@@ -103,6 +103,8 @@ public class Sorts extends Fragment {
         List<String> myCategoriesList;
         List<Integer> myIdList;
 
+        public static final ContentAdapter self;
+
         DBHelper dbHelper = new DBHelper(Objects.requireNonNull(getActivity()).getApplicationContext());
         ContentValues cv = new ContentValues();
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -124,6 +126,7 @@ public class Sorts extends Fragment {
             myCategoriesList = new ArrayList<>();
             myCategoriesList.add("");
             myIdList = new ArrayList<>();
+            self = this;
 //            myCategoriesList = SignIn.cat.getCategoryName();
 //            myIdList = SignIn.cat.getCategoryId();
 //            for (String str : myCategoriesList) Log.d("API", "myCatList: " + str);
@@ -273,8 +276,10 @@ public class Sorts extends Fragment {
 
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();}
+                    e.printStackTrace();
+                }
 
+                ContentAdapter.self.setNamesAndIds(categoryName, categoryId);
 
             }
 
