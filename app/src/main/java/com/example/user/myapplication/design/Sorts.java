@@ -17,17 +17,30 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user.myapplication.API.API;
+import com.example.user.myapplication.API.EventCategoryIncludeApiResponse;
+import com.example.user.myapplication.API.EventsCategoriesApiResponse;
 import com.example.user.myapplication.DBHelper;
 import com.example.user.myapplication.R;
 import com.example.user.myapplication.pages.SignIn;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.user.myapplication.design.CardContentFragment.BASE_URL;
 
 public class Sorts extends Fragment {
 
@@ -217,9 +230,74 @@ public class Sorts extends Fragment {
         Log.d("API", "deleted rows count = " + clearCount);
     }
 
+
+    List<EventCategoryIncludeApiResponse> categoriesList = new ArrayList<>();
+
     @Override
     public void onStart() {
         super.onStart();
+
+
+        List<Integer> categoryId = new ArrayList<>();
+        List<String> categoryName = new ArrayList<>();
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        API api = retrofit.create(API.class);
+        Call<EventsCategoriesApiResponse> call;
+        call = api.categoriesList();
+
+        call.enqueue(new Callback<EventsCategoriesApiResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<EventsCategoriesApiResponse> call, @NonNull Response<EventsCategoriesApiResponse> response) {
+                try {
+                    EventsCategoriesApiResponse eventsCategoriesApiResponse = response.body();
+
+                    Log.d("API", "raw response: " + response.raw().toString());
+                    if (eventsCategoriesApiResponse == null) Log.d("API", "response is null");
+                    else {categoriesList = eventsCategoriesApiResponse.getValues();
+                        Log.d("API", "success");
+                        Log.d("API", "categoryID: " + categoriesList.get(0).getId());
+                        Log.d("API", "categoryList size: " + eventsCategoriesApiResponse.getValues().size());
+
+                        for (int i = 0; i < categoriesList.size(); i++) {
+                            categoryName.add(categoriesList.get(i).getName());
+                            categoryId.add(categoriesList.get(i).getId());
+                            Log.d("API", "catNAme: " + categoryName.get(i));
+                        }
+
+//                        for (EventCategoryIncludeApiResponse er : categoriesList) {
+//                            Log.d("API", "Categories id = " + er.getId() + " name = " + er.getName());
+//                            for (int i = 0; i < LENGTH; i++) {
+//                                final String[] str = {""};
+//                                char[] dst = new char[10];
+//                                names[i] = myList.get(i).getName();
+//                                categories[i] = myList.get(i).getCategories().get(0).getName();
+//                                links[i] = myList.get(i).getUrl();
+//                                myList.get(i).getStarts_at().getChars(0, 10, dst, 0);
+//                                for (char c : dst) str[0] += c;
+//                                dates[i] = str[0];
+//                                Log.d("API", "STR: " + dates[i]);
+//                            }
+//                        }
+//                        Log.d("API", "Categories: " + categoriesList);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();}
+
+
+            }
+
+            @Override
+            public void onFailure (@NonNull Call <EventsCategoriesApiResponse> call, @NonNull Throwable t){
+                Log.d("API", "failed");
+            }
+        });
     }
 
 }
