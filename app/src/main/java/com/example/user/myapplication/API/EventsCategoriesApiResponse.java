@@ -9,7 +9,7 @@ public class EventsCategoriesApiResponse {
         return values;
     }
 
-    public void setValues(List<EventCategoryIncludeApiResponse> values) {
+    public void setValue(List<EventCategoryIncludeApiResponse> values) {
         this.values = values;
     }
 }

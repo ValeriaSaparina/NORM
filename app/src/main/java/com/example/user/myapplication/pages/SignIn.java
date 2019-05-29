@@ -63,6 +63,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void signIn (String email, String password) {
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
