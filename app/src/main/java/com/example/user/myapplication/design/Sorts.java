@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -45,8 +46,8 @@ public class Sorts extends Fragment {
         onSaveInstanceState(savedInstanceState);
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
-        ContentAdapter adapter = new ContentAdapter();
         SignIn.initCategories();
+        ContentAdapter adapter = new ContentAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -86,7 +87,6 @@ public class Sorts extends Fragment {
         private DatabaseReference myRef = database.getReference();
         private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-
         List<String> myCategoriesList;
         List<Integer> myIdList;
 
@@ -98,15 +98,23 @@ public class Sorts extends Fragment {
         String STR = "";
         String STR2 = "";
 
+       void setNamesAndIds(List<String> names, List<Integer> ids) {
+           this.myCategoriesList = names;
+           this.myIdList = ids;
+           notifyDataSetChanged();
+       }
+
+
+
         ContentAdapter() {
             uID = mAuth.getUid();
-
-            myCategoriesList = SignIn.cat.getCategoryName();
-            myIdList = SignIn.cat.getCategoryId();
-            for (String str : myCategoriesList) Log.d("API", "myCatList: " + str);
-            for (int i : myIdList) Log.d("API", "myIdList: " + i);
-
-           // categoriesList = cat.getCategoriesList();
+            myCategoriesList = new ArrayList<>();
+            myCategoriesList.add("");
+            myIdList = new ArrayList<>();
+//            myCategoriesList = SignIn.cat.getCategoryName();
+//            myIdList = SignIn.cat.getCategoryId();
+//            for (String str : myCategoriesList) Log.d("API", "myCatList: " + str);
+//            for (int i : myIdList) Log.d("API", "myIdList: " + i);
         }
 
         @NonNull
@@ -207,6 +215,11 @@ public class Sorts extends Fragment {
 
         int clearCount = db.delete("myTable", null, null);
         Log.d("API", "deleted rows count = " + clearCount);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.user.myapplication.design;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.user.myapplication.API.API;
@@ -8,11 +9,12 @@ import com.example.user.myapplication.API.EventsCategoriesApiResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -58,18 +60,8 @@ public class Categories {
         API api = retrofit.create(API.class);
         Call<EventsCategoriesApiResponse> call;
         call = api.categoriesList();
-        try {
-            categoriesList = call.execute().body().getValues();
-            for (int i = 0; i < categoriesList.size(); i++) {
-                categoryName.add(categoriesList.get(i).getName());
-                categoryId.add(categoriesList.get(i).getId());
-                Log.d("API", "catNAme: " + categoryName.get(i));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        /* call.enqueue(new Callback<EventsCategoriesApiResponse>() {
+        call.enqueue(new Callback<EventsCategoriesApiResponse>() {
             @Override
             public void onResponse(@NonNull Call<EventsCategoriesApiResponse> call, @NonNull Response<EventsCategoriesApiResponse> response) {
                 try {
@@ -114,60 +106,58 @@ public class Categories {
                 public void onFailure (@NonNull Call <EventsCategoriesApiResponse> call, @NonNull Throwable t){
                     Log.d("API", "failed");
                 }
-            }); */
-
-/*
-        myCategoriesList = new ArrayList<>();
-        myIdList = new ArrayList<>();
-
-        myCategoriesList.add("Наука");
-        myCategoriesList.add("Бизнес");
-        myCategoriesList.add("ИТ и интернет");
-        myCategoriesList.add("Иностранные языки");
-        myCategoriesList.add("Выставки");
-        myCategoriesList.add("Концерты");
-        myCategoriesList.add("Театры");
-        myCategoriesList.add("Вечеринки");
-        myCategoriesList.add("Экскурсии и путешествия");
-        myCategoriesList.add("Еда");
-        myCategoriesList.add("Красота и здоровье");
-        myCategoriesList.add("Для детей");
-        myCategoriesList.add("Психология и самопознание");
-        myCategoriesList.add("Кино");
-        myCategoriesList.add("Хобби и творчество");
-        myCategoriesList.add("Искусство и культура");
-        myCategoriesList.add("Другие развлечения");
-        myCategoriesList.add("Спорт");
-        myCategoriesList.add("Образование за рубежом");
-        myCategoriesList.add("Гражданские проекты");
-        myCategoriesList.add("Интеллектуальные игры");
-        myCategoriesList.add("Другие события");
+            });
 
 
-        myIdList.add("2465");
-        myIdList.add("217");
-        myIdList.add("452");
-        myIdList.add("382");
-        myIdList.add("458");
-        myIdList.add("460");
-        myIdList.add("459");
-        myIdList.add("457");
-        myIdList.add("461");
-        myIdList.add("456");
-        myIdList.add("399");
-        myIdList.add("379");
-        myIdList.add("453");
-        myIdList.add("374");
-        myIdList.add("524");
-        myIdList.add("525");
-        myIdList.add("463");
-        myIdList.add("376");
-        myIdList.add("1315");
-        myIdList.add("1940");
-        myIdList.add("2335");
-        myIdList.add("462");
 
+      /*  categoryName.add("Наука");
+        categoryName.add("Бизнес");
+        categoryName.add("ИТ и интернет");
+        categoryName.add("Иностранные языки");
+        categoryName.add("Выставки");
+        categoryName.add("Концерты");
+        categoryName.add("Театры");
+        categoryName.add("Вечеринки");
+        categoryName.add("Экскурсии и путешествия");
+        categoryName.add("Еда");
+        categoryName.add("Красота и здоровье");
+        categoryName.add("Для детей");
+        categoryName.add("Психология и самопознание");
+        categoryName.add("Кино");
+        categoryName.add("Хобби и творчество");
+        categoryName.add("Искусство и культура");
+        categoryName.add("Другие развлечения");
+        categoryName.add("Спорт");
+        categoryName.add("Образование за рубежом");
+        categoryName.add("Гражданские проекты");
+        categoryName.add("Интеллектуальные игры");
+        categoryName.add("Другие события");
+
+
+        categoryId.add(2465);
+        categoryId.add(217);
+        categoryId.add(452);
+        categoryId.add(382);
+        categoryId.add(458);
+        categoryId.add(460);
+        categoryId.add(459);
+        categoryId.add(457);
+        categoryId.add(461);
+        categoryId.add(456);
+        categoryId.add(399);
+        categoryId.add(379);
+        categoryId.add(453);
+        categoryId.add(374);
+        categoryId.add(524);
+        categoryId.add(525);
+        categoryId.add(463);
+        categoryId.add(376);
+        categoryId.add(131);
+        categoryId.add(194);
+        categoryId.add(233);
+        categoryId.add(462);
 */
+
     }
 
 }
