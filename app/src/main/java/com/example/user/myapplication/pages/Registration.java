@@ -109,11 +109,12 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
                 Users.setMailUser(mail);
                 Users.setPasswordUser(password);
                 Users.setCityUser(city);
+                Log.d("API", "SUCCESS REG");
  //               Users.setUID(mAuth.getCurrentUser().getUid());
 
 
 //                users.write(mAuth.getUid());
-
+                click();
 
                 Intent intent = new Intent(this, Content.class);
                 startActivity(intent);
@@ -130,7 +131,7 @@ public class Registration extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void CLICK() {
+    private void click() {
         Intent intent = new Intent(this, Content.class);
         startActivity(intent);
     }

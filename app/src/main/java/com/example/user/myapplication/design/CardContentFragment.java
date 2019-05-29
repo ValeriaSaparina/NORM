@@ -95,7 +95,6 @@ public class CardContentFragment extends Fragment {
 
 
     DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("events");
-    DatabaseReference usersRef = rootRef.child(Objects.requireNonNull(mAuth.getUid()));
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
 
 
@@ -184,12 +183,12 @@ public class CardContentFragment extends Fragment {
             if(myCategories.size() == 0) holder.category.setText("");
             else {
                 int listSize = myCategories.size();
-                if (listSize > position) holder.category.setText(listSize == 1 ? myCategories.get(listSize - 1) : myCategories.get(position));
+                if (listSize > position) holder.category.setText("Категория: " + String.valueOf(listSize == 1 ? myCategories.get(listSize - 1) : myCategories.get(position)));
             }
             if(myDates.size() == 0) holder.date.setText("");
             else {
                 int listSize = myDates.size();
-                if (listSize > position) holder.date.setText(listSize == 1 ? myDates.get(listSize - 1) : myDates.get(position));
+                if (listSize > position) holder.date.setText("Дата: " + String.valueOf(listSize == 1 ? myDates.get(listSize - 1) : myDates.get(position)));
             }
 
             Picasso.get().load("https://pp.userapi.com/c845524/v845524621/20d268/x3tFRfkMiCs.jpg").into(holder.picture);
