@@ -126,10 +126,6 @@ public class Sorts extends Fragment {
             myCategoriesList = new ArrayList<>();
             myCategoriesList.add("");
             myIdList = new ArrayList<>();
-//            myCategoriesList = SignIn.cat.getCategoryName();
-//            myIdList = SignIn.cat.getCategoryId();
-//            for (String str : myCategoriesList) Log.d("API", "myCatList: " + str);
-//            for (int i : myIdList) Log.d("API", "myIdList: " + i);
         }
 
         @NonNull
@@ -147,7 +143,7 @@ public class Sorts extends Fragment {
             if(myCategoriesList == null) holder.text.setText("");
             else {
                 int listSize = myCategoriesList.size();
-                holder.text.setText(listSize == 1 ? myCategoriesList.get(listSize - 1) : myCategoriesList.get(position)); //myCategoriesList.get(listSize - 1)
+                holder.text.setText(listSize == 1 ? myCategoriesList.get(listSize - 1) : myCategoriesList.get(position));
             }
 
             AtomicBoolean flag = new AtomicBoolean(true);
@@ -178,6 +174,7 @@ public class Sorts extends Fragment {
                         } while (c[0].moveToNext());
                         STR = STR.substring(0, STR.length() - 2);
                         CardContentFragment.setCatStr(STR);
+//                        SignIn.initEvents(STR);
                         STR2 = STR;
                         events = new Events(CardContentFragment.LENGTH, STR);
                         Log.d("API", "STR2: " + STR2);
@@ -205,17 +202,6 @@ public class Sorts extends Fragment {
                 dates = events.getDates();
                 categories = events.getCategories();
                 links = events.getLinks();
-//                CardContentFragment card = new CardContentFragment();
-//                card.getFragmentManager().getFragments().clear();
-//                while (names[position] != null) {
-//
-//                    holder.cardName.setText("name " + names[position]);
-//
-//                    holder.cardDate.setText("date " + dates[position]);
-//
-//                    holder.cardCat.setText("cat " + categories[position]);
-//                    Log.d("API", "SUCCESS");
-//                }
             };
             holder.btn.setOnClickListener(onClickListener);
 
@@ -266,7 +252,8 @@ public class Sorts extends Fragment {
                     Log.d("API", "raw response: " + response.raw().toString());
                     List<EventCategoryIncludeApiResponse> categoriesList;
                     if (eventsCategoriesApiResponse == null) Log.d("API", "response is null");
-                    else {categoriesList = eventsCategoriesApiResponse.getValues();
+                    else {
+                        categoriesList = eventsCategoriesApiResponse.getValues();
                         Log.d("API", "success");
                         Log.d("API", "categoryID: " + categoriesList.get(0).getId());
                         Log.d("API", "categoryList size: " + eventsCategoriesApiResponse.getValues().size());
@@ -278,22 +265,6 @@ public class Sorts extends Fragment {
                         }
 
                         Sorts.this.ca.setNamesAndIds(categoryName, categoryId);
-
-//                        for (EventCategoryIncludeApiResponse er : categoriesList) {
-//                            Log.d("API", "Categories id = " + er.getId() + " name = " + er.getName());
-//                            for (int i = 0; i < LENGTH; i++) {
-//                                final String[] str = {""};
-//                                char[] dst = new char[10];
-//                                names[i] = myList.get(i).getName();
-//                                categories[i] = myList.get(i).getCategories().get(0).getName();
-//                                links[i] = myList.get(i).getUrl();
-//                                myList.get(i).getStarts_at().getChars(0, 10, dst, 0);
-//                                for (char c : dst) str[0] += c;
-//                                dates[i] = str[0];
-//                                Log.d("API", "STR: " + dates[i]);
-//                            }
-//                        }
-//                        Log.d("API", "Categories: " + categoriesList);
 
                     }
                 } catch (Exception e) {

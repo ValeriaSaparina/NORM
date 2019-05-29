@@ -18,17 +18,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user.myapplication.API.API;
 import com.example.user.myapplication.API.EventResponse;
+import com.example.user.myapplication.API.EventsResponse;
 import com.example.user.myapplication.R;
-import com.example.user.myapplication.pages.SignIn;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CardContentFragment extends Fragment {
 
@@ -38,18 +47,13 @@ public class CardContentFragment extends Fragment {
     private static List<EventResponse> myList = new ArrayList<>();
     @SuppressLint("StaticFieldLeak")
     static int i;
+    ContentAdapter ca;
 
     static String categoriesStr = "";
 
     protected static void setCatStr(String str) {
         categoriesStr = str;
     }
-
-    private static String[] names;
-    private static String[] categories;
-    private static String[] dates;
-    private static String[] links;
-    private Events eventsCat;
 
 
     RecyclerView recyclerView;
@@ -59,10 +63,9 @@ public class CardContentFragment extends Fragment {
         recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
         ContentAdapter adapter = new ContentAdapter();
-        adapter.notifyDataSetChanged();
+        ca = adapter;
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-//        qqq();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return recyclerView;
     }
@@ -79,7 +82,6 @@ public class CardContentFragment extends Fragment {
 
         ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_card, parent, false));
-//            qqq();
             picture = itemView.findViewById(R.id.card_image);
             name = itemView.findViewById(R.id.card_title);
             date = itemView.findViewById(R.id.card_date_text);
@@ -91,9 +93,6 @@ public class CardContentFragment extends Fragment {
 
     }
 
-    String nameF;
-    String[] namesF = new String[10];
-    final long[] count = new long[1];
 
     DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("events");
     DatabaseReference usersRef = rootRef.child(Objects.requireNonNull(mAuth.getUid()));
@@ -104,75 +103,58 @@ public class CardContentFragment extends Fragment {
      * Adapter to display recycler view.
      */
     public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+
+
+        List<String> myNames;
+        List<String> myCategories;
+        List<String> myDates;
+        List<String> myLinks;
+
+        void setInfo(List<String> names, List<String> categories, List<String> dates, List<String> links) {
+            this.myNames = names;
+            this.myCategories = categories;
+            this.myDates = dates;
+            this.myLinks = links;
+            notifyDataSetChanged();
+
+            Log.d("API", "setInfo name: " + myNames.get(0));
+        }
         ContentAdapter() {
 
-                Users users = new Users();
-                if (mAuth.getCurrentUser() != null) {
-                    Users.setUID(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+            myNames = new ArrayList<>();
+            myCategories = new ArrayList<>();
+            myDates = new ArrayList<>();
+            myLinks = new ArrayList<>();
+
+//            myNames.add("");
+//            myCategories.add("");
+//            myDates.add("");
+//            myLinks.add("");
+
+            Users users = new Users();
+            if (mAuth.getCurrentUser() != null) {
+                Users.setUID(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+            } else {
+                Users.setUID(null);
+            }
+
+            try {
+                if (users.getNameUser() == null) {
+                    Users.setUID(mAuth.getCurrentUser().getUid());
+                    users.read();
                 } else {
-                    Users.setUID(null);
+                    Users.setUID(mAuth.getCurrentUser().getUid());
+                    Log.d("API", "name: " + users.getNameUser() + " " + users.getSurnameUser()
+                            + "; city: " + users.getCityUser() + "; Uid: " + Users.getUID());
+                    users.write();
                 }
+            } catch (NullPointerException ex) {
+                Log.d("API", "exception: " + null);
+            }
 
-                try {
-                    if (users.getNameUser() == null) {
-                        Users.setUID(mAuth.getCurrentUser().getUid());
-                        users.read();
-                    } else {
-                        Users.setUID(mAuth.getCurrentUser().getUid());
-                        Log.d("API", "name: " + users.getNameUser() + " " + users.getSurnameUser()
-                                + "; city: " + users.getCityUser() + "; Uid: " + Users.getUID());
-                        users.write();
-                    }
-                } catch (NullPointerException ex) {
-                    Log.d("API", "exception: " + null);
-                }
+            Log.d("API", "nameWrite: " + users.getNameUser());
 
-                Log.d("API", "nameWrite: " + users.getNameUser());
-
-                names = new String[LENGTH];
-                categories = new String[LENGTH];
-                dates = new String[LENGTH];
-                links = new String[LENGTH];
-
-
-
-                if(categoriesStr.equals("")) {
-                    Events events = SignIn.events;
-                    names = events.getNames();
-                    dates = events.getDates();
-                    categories = events.getCategories();
-                    links = events.getLinks();
-                    notifyDataSetChanged();
-                    notifyItemInserted(0);
-                    Log.d("API", "namesCard: " + names[0]);
-                } else {
-                    eventsCat = new Events(LENGTH, categoriesStr);
-                    names = eventsCat.getNames();
-                    dates = eventsCat.getDates();
-                    categories = eventsCat.getCategories();
-                    links = eventsCat.getLinks();
-                    notifyDataSetChanged();
-                    notifyItemInserted(0);
-                    Log.d("API", "namesCard: " + names[0]);
-                }
-
-
-//                Log.d("API", "UID events: " + mAuth.getUid());
-//            for (int i = 1; i < 2; i++) {
-//                int finalI = i;
-//                myRef.child("events").child(mAuth.getUid()).child("event" + i).child("name").addListenerForSingleValueEvent(
-//                        new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                namesF[finalI] = Objects.requireNonNull(dataSnapshot.getValue(String.class));
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                            }
-//                        });
-              }
+        }
 
 
         @NonNull
@@ -184,40 +166,40 @@ public class CardContentFragment extends Fragment {
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+//            Log.d("API", "bind position: " + position);
+//            Log.d("API", "categories size: "+ (myNames.size() == 0 ? "null" : String.valueOf(.size())));
 
-            Log.d("API", "name2: " + names[position % names.length]);
-            holder.name.setText(names[position % names.length]);
+
+            if(myNames.size() == 0) Log.d("API", "NAME BIND: null");
+            else {
+                int listSize = myNames.size();
+                if (listSize > position) Log.d("API", (" NAME BIND" + String.valueOf(listSize == 1 ? myNames.get(listSize - 1) : myNames.get(position))));
+            }
+
+            if(myNames.size() == 0) holder.name.setText("");
+            else {
+                int listSize = myNames.size();
+                if (listSize > position) holder.name.setText(listSize == 1 ? myNames.get(listSize - 1) : myNames.get(position));
+            }
+            if(myCategories.size() == 0) holder.category.setText("");
+            else {
+                int listSize = myCategories.size();
+                if (listSize > position) holder.category.setText(listSize == 1 ? myCategories.get(listSize - 1) : myCategories.get(position));
+            }
+            if(myDates.size() == 0) holder.date.setText("");
+            else {
+                int listSize = myDates.size();
+                if (listSize > position) holder.date.setText(listSize == 1 ? myDates.get(listSize - 1) : myDates.get(position));
+            }
+
             Picasso.get().load("https://pp.userapi.com/c845524/v845524621/20d268/x3tFRfkMiCs.jpg").into(holder.picture);
-            holder.date.setText("Дата: " + dates[position ]);
-            holder.category.setText("Категория: " + categories[position]);
 
 
-
-//            ValueEventListener valueEventListener = new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    count[0] = dataSnapshot.getChildrenCount();
-//                    Log.d("TAG", "count= " + count[0]);
-//                }
+//            Log.d("API", "nameEvent: " + myNames.get());
+//            holder.name.setText(names[position % names.length]);
 //
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {}
-//            };
-//            usersRef.addListenerForSingleValueEvent(valueEventListener);
-//
-//            try {
-//                for (int i = 0; i < 10; i++) {
-//                    if (namesF[i] == holder.name.getText()) {
-//                        holder.btn_add.setImageResource(R.drawable.ic_favorite);
-//                        Log.d("API", "equals: " + names[position] + " + "
-//                                + rootRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("name"));
-//                    }
-//                    Log.d("API", "equals: " + names[position] + " + "
-//                            + rootRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("name"));
-//                    }
-//                } catch (NullPointerException ex) {
-//                ex.getMessage();
-//            }
+//            holder.date.setText("Дата: " + dates[position ]);
+//            holder.category.setText("Категория: " + categories[position]);
 
 
                     View.OnClickListener onClickListenerAdd = v -> {
@@ -226,10 +208,10 @@ public class CardContentFragment extends Fragment {
                         Toast.makeText(getContext(), "Список выбранных событий полон", Toast.LENGTH_LONG).show();
                         i = 0;
                     } else {
-                        rootRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("name").setValue(names[position]);
-                        rootRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("date").setValue(dates[position]);
-                        rootRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("category").setValue(categories[position]);
-                        rootRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("link").setValue(links[position]);
+                        rootRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("name").setValue(myNames.get(position));
+                        rootRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("date").setValue(myDates.get(position));
+                        rootRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("category").setValue(myCategories.get(position));
+                        rootRef.child(Objects.requireNonNull(mAuth.getUid())).child("event" + i).child("link").setValue(myLinks.get(position));
                         holder.btn_add.setImageResource(R.drawable.ic_favorite);
                         i++;
                     }
@@ -240,14 +222,11 @@ public class CardContentFragment extends Fragment {
 
             View.OnClickListener onClickListener = v -> {
                 if (v.getId() == R.id.site_button) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(links[position]));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(myLinks.get(position)));
                     startActivity(browserIntent);
                 }
             };
             holder.btn_link.setOnClickListener(onClickListener);
-
-
-//            holder.btn_add.setImageResource();
         }
 
 
@@ -257,6 +236,144 @@ public class CardContentFragment extends Fragment {
         }
     }
 
+      public void onStart() {
+        super.onStart();
 
+        List<String> names = new ArrayList<>();
+        List<String> categories = new ArrayList<>();
+        List<String> dates = new ArrayList<>();
+        List<String> links = new ArrayList<>();
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        API api = retrofit.create(API.class);
+        List<String> cityList = new ArrayList<>();
+
+        cityList.add("Казань");
+        Call<EventsResponse> call;
+
+        Log.d("API", " start categoryStr: " + categoriesStr);
+        if (!(categoriesStr.equals(""))) {
+            call = api.eventList(LENGTH, cityList, categoriesStr);
+        } else call = api.eventList(LENGTH, cityList);
+
+        call.enqueue(new Callback<EventsResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<EventsResponse> call, @NonNull Response<EventsResponse> response) {
+                try {
+                    EventsResponse eventsResponse = response.body();
+
+                    Log.d("API", "raw response: " + response.raw().toString());
+                    if (eventsResponse == null) Log.d("API", "response is null");
+                    else {
+                        myList = eventsResponse.getValues();
+                        for (EventResponse er : myList) {
+                            Log.d("API", "id = " + er.getId() + " name = " + er.getName() + " url = " + er.getUrl() + " img = " + er.getPoster_image().getDefault_url());
+                        }
+                        Log.d("API", "event list is " + eventsResponse.getTotal() + " length");
+                        for (int i = 0; i < LENGTH; i++) {
+                            final String[] str = {""};
+                            char[] dst=new char[10];
+                            names.add(myList.get(i).getName());
+                            categories.add(myList.get(i).getCategories().get(0).getName());
+                            links.add(myList.get(i).getUrl());
+                            myList.get(i).getStarts_at().getChars(0, 10, dst, 0);
+                            for(char c : dst) str[0] += c;
+                            dates.add(str[0]);
+                            Log.d("API", "STR: " + dates.get(0));
+                        }
+
+                        CardContentFragment.this.ca.setInfo(names, categories, dates, links);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<EventsResponse> call, @NonNull Throwable t) {
+                Log.d("API", "failed");
+            }
+        });
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!categoriesStr.equals("")) {
+            List<String> names = new ArrayList<>();
+            List<String> categories = new ArrayList<>();
+            List<String> dates = new ArrayList<>();
+            List<String> links = new ArrayList<>();
+
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build();
+            API api = retrofit.create(API.class);
+            List<String> cityList = new ArrayList<>();
+
+            cityList.add("Казань");
+            Call<EventsResponse> call;
+
+            Log.d("API", "Resume categoryStr: " + categoriesStr);
+            if (!(categoriesStr.equals(""))) {
+                call = api.eventList(LENGTH, cityList, categoriesStr);
+            } else call = api.eventList(LENGTH, cityList);
+
+            call.enqueue(new Callback<EventsResponse>() {
+                @Override
+                public void onResponse(@NonNull Call<EventsResponse> call, @NonNull Response<EventsResponse> response) {
+                    try {
+                        EventsResponse eventsResponse = response.body();
+
+                        Log.d("API", "raw response: " + response.raw().toString());
+                        if (eventsResponse == null) Log.d("API", "response is null");
+                        else {
+                            myList = eventsResponse.getValues();
+                            for (EventResponse er : myList) {
+                                Log.d("API", "id = " + er.getId() + " name = " + er.getName() + " url = " + er.getUrl() + " img = " + er.getPoster_image().getDefault_url());
+                            }
+                            Log.d("API", "event list is " + eventsResponse.getTotal() + " length");
+                            for (int i = 0; i < LENGTH; i++) {
+                                final String[] str = {""};
+                                char[] dst = new char[10];
+                                names.add(myList.get(i).getName());
+                                categories.add(myList.get(i).getCategories().get(0).getName());
+                                links.add(myList.get(i).getUrl());
+                                myList.get(i).getStarts_at().getChars(0, 10, dst, 0);
+                                for (char c : dst) str[0] += c;
+                                dates.add(str[0]);
+                                CardContentFragment.this.ca.setInfo(names, categories, dates, links);
+                                Log.d("API", "STR: " + dates.get(0));
+                                Log.d("API", "***********************");
+                            }
+                            Log.d("API", "onResume setInfo: ok");
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<EventsResponse> call, @NonNull Throwable t) {
+                    Log.d("API", "failed");
+                }
+            });
+        }
+    }
 }
 

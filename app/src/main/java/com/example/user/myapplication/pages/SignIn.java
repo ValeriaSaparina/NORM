@@ -108,6 +108,10 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
         cat = new Categories();
     }
 
+    public static void initEvents(String categoriesStr) {
+        events = new Events(50, categoriesStr);
+    }
+
     public static void initEvents() {
         events = new Events(50, "");
     }
